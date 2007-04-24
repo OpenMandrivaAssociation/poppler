@@ -1,8 +1,8 @@
 %define	name		poppler
 %define version 0.5.4
-%define release %mkrel 3
+%define release %mkrel 4
 %define major 1
-%define  qtmajor 1
+%define qtmajor 1
 %define libname		%mklibname %name %major
 %define libnameqt	%mklibname %name-qt %qtmajor
 %define libnameqt4	%mklibname %name-qt4- %qtmajor
@@ -29,7 +29,9 @@ BuildRequires:	qt4-devel
 BuildRequires:  gtk2-devel
 BuildRequires:  cairo-devel >= 0.5.0
 BuildRequires:  automake1.9
-Conflicts: xpdf-tools
+Conflicts: 	xpdf-tools
+Obsoletes:	pdftohtml
+Provides:	pdftohtml
 
 %description
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.

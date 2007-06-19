@@ -1,6 +1,6 @@
 %define	name		poppler
-%define version 0.5.4
-%define release %mkrel 4
+%define version 0.5.9
+%define release %mkrel 1
 %define major 1
 %define qtmajor 1
 %define libname		%mklibname %name %major
@@ -19,8 +19,6 @@ URL:		http://poppler.freedesktop.org
 Source:		%{name}-%{version}.tar.bz2
 Patch0:		poppler-0.5.3-refcount.patch
 Patch1:		poppler-0.5.3-init.patch
-Patch2:		poppler-0.5.3-CVE-2007-0104.patch
-Patch3:		poppler-qt4-pedantic.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires:  qt3-devel
 %if %qt4support
@@ -96,8 +94,6 @@ This is the QT backend version.
 %setup -q
 %patch0 -p0
 %patch1 -p0
-%patch2 -p1 -b .cve-2007-0104
-%patch3 -p1 -b .qt4_pedantic
 
 perl -pi -e "s@/lib(\"|\b[^/])@/%_lib\1@g if /(kde|qt|qt4)_(libdirs|libraries)=/" configure
 
@@ -157,7 +153,6 @@ rm -rf %{buildroot}
 %attr(644,root,root) %{_libdir}/libpoppler.*a
 %dir %{_includedir}/poppler
 %{_includedir}/poppler/glib
-%{_includedir}/poppler/poppler-page-transition.h
 %{_includedir}/poppler/[A-Z]*
 %{_includedir}/poppler/goo
 %{_includedir}/poppler/splash
@@ -177,16 +172,13 @@ rm -rf %{buildroot}
 %{_libdir}/libpoppler-qt.so
 %attr(644,root,root) %{_libdir}/libpoppler-qt.*a
 %{_libdir}/pkgconfig/poppler-qt.pc
-%_includedir/poppler/poppler-qt.h
-%_includedir/poppler/poppler-link-qt3.h
+%_includedir/poppler/qt3
 
 %if %qt4support
 %files -n %{libnameqt4}-devel
 %defattr(-,root,root)
+%_includedir/poppler/qt4
 %{_libdir}/pkgconfig/poppler-qt4.pc
-%_includedir/poppler/poppler-qt4.h
-%{_includedir}/poppler/poppler-annotation.h
-%{_includedir}/poppler/poppler-link.h
 %{_libdir}/libpoppler-qt4.so
 %attr(644,root,root) %{_libdir}/libpoppler-qt4.*a
 

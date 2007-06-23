@@ -1,11 +1,16 @@
 %define	name		poppler
 %define version 0.5.9
-%define release %mkrel 1
+%define release %mkrel 2
 %define major 1
 %define qtmajor 1
 %define libname		%mklibname %name %major
+%define libnameglib	%mklibname %name-glib %major
 %define libnameqt	%mklibname %name-qt %qtmajor
 %define libnameqt4	%mklibname %name-qt4- %qtmajor
+%define libnamedev	%mklibname -d %name %major
+%define libnameglibdev	%mklibname -d %name-glib %major
+%define libnameqtdev	%mklibname -d %name-qt %qtmajor
+%define libnameqt4dev	%mklibname -d %name-qt4- %qtmajor
 
 %define qt4support 1
 
@@ -41,13 +46,13 @@ Group:          System/Libraries
 %description -n %{libname}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 
-%package -n %{libname}-devel
+%package -n %{libnamedev}
 Summary:	Development files for %{name}
 Group:		Development/C++
 Provides:	lib%{name}-devel = %{version}
 Requires:	%{libname} = %{version}
 
-%description -n %{libname}-devel
+%description -n %{libnamedev}
 Development files for %{name}
 
 %package -n %{libnameqt}
@@ -58,26 +63,26 @@ Group:          System/Libraries
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 This is the QT backend version.
 
-%package -n %{libnameqt}-devel
+%package -n %{libnameqtdev}
 Summary:	Development files for %{name}-qt
 Group:		Development/C++
 Provides:	lib%{name}-qt-devel = %{version}
 Requires:	%{libnameqt} = %{version}
-Requires:	%libname-devel = %version
+Requires:	%libnamedev = %version
 
 %description -n %{libnameqt}-devel
 Development files for %{name}-qt
 
 
 %if %qt4support
-%package  -n %{libnameqt4}-devel
+%package  -n %{libnameqt4dev}
 Summary:    Development files for %{name}-qt4
 Group:      Development/C++
 Provides:   lib%{name}-qt4-devel = %{version}
 Requires:   %{libnameqt4} = %{version}
-Requires:   %libname-devel = %version
+Requires:   %libnamedev = %version
 
-%description -n %{libnameqt4}-devel
+%description -n %{libnameqt4dev}
 Development files for %{name}-qt4
 
 %package -n %{libnameqt4}
@@ -89,6 +94,25 @@ Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 This is the QT backend version.
 
 %endif
+
+%package -n %{libnameglib}
+Summary:	PDF rendering library - glib binding
+Group:          System/Libraries
+Conflicts: %libname < %version-%release
+
+%description -n %{libnameglib}
+Poppler is a PDF rendering library based on the xpdf-3.0 code base.
+
+%package -n %{libnameglibdev}
+Summary:	Development files for %{name}'s glib binding
+Group:		Development/C++
+Provides:	lib%{name}glib-devel = %{version}
+Requires:	%{libnameglib} = %{version}
+Requires:	%{libnamedev} = %{version}
+Conflicts: %libnamedev < %version-%release
+
+%description -n %{libnameglibdev}
+Development files for %{name}'s glib binding.
 
 %prep
 %setup -q
@@ -123,6 +147,9 @@ rm -rf %{buildroot}
 %post -n %{libname} -p /sbin/ldconfig
 %postun -n %{libname} -p /sbin/ldconfig
 
+%post -n %{libnameglib} -p /sbin/ldconfig
+%postun -n %{libnameglib} -p /sbin/ldconfig
+
 %post -n %{libnameqt} -p /sbin/ldconfig
 %postun -n %{libnameqt} -p /sbin/ldconfig
 
@@ -142,32 +169,38 @@ rm -rf %{buildroot}
 
 %files -n %{libname}
 %defattr(-,root,root)
-%{_libdir}/libpoppler-glib.so.%{major}*
 %{_libdir}/libpoppler.so.%{major}*
 
-%files -n %{libname}-devel
+%files -n %{libnamedev}
 %defattr(-,root,root)
-%{_libdir}/libpoppler-glib.so
 %{_libdir}/libpoppler.so
-%attr(644,root,root) %{_libdir}/libpoppler-glib.*a
 %attr(644,root,root) %{_libdir}/libpoppler.*a
 %dir %{_includedir}/poppler
-%{_includedir}/poppler/glib
 %{_includedir}/poppler/[A-Z]*
 %{_includedir}/poppler/goo
 %{_includedir}/poppler/splash
 %{_includedir}/poppler/poppler-config.h
 %{_libdir}/pkgconfig/poppler-cairo.pc
-%{_libdir}/pkgconfig/poppler-glib.pc
 %{_libdir}/pkgconfig/poppler-splash.pc
 %{_libdir}/pkgconfig/poppler.pc
 %_datadir/gtk-doc/html/%name
+
+%files -n %{libnameglib}
+%defattr(-,root,root)
+%{_libdir}/libpoppler-glib.so.%{major}*
+
+%files -n %{libnameglibdev}
+%defattr(-,root,root)
+%attr(644,root,root) %{_libdir}/libpoppler-glib.*a
+%{_libdir}/libpoppler-glib.so
+%{_libdir}/pkgconfig/poppler-glib.pc
+%{_includedir}/poppler/glib
 
 %files -n %{libnameqt}
 %defattr(-,root,root)
 %{_libdir}/libpoppler-qt.so.%{qtmajor}*
 
-%files -n %{libnameqt}-devel
+%files -n %{libnameqtdev}
 %defattr(-,root,root)
 %{_libdir}/libpoppler-qt.so
 %attr(644,root,root) %{_libdir}/libpoppler-qt.*a
@@ -175,7 +208,7 @@ rm -rf %{buildroot}
 %_includedir/poppler/qt3
 
 %if %qt4support
-%files -n %{libnameqt4}-devel
+%files -n %{libnameqt4dev}
 %defattr(-,root,root)
 %_includedir/poppler/qt4
 %{_libdir}/pkgconfig/poppler-qt4.pc

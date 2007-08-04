@@ -1,6 +1,6 @@
 %define	name		poppler
 %define version 0.5.9
-%define release %mkrel 2
+%define release %mkrel 3
 %define major 1
 %define qtmajor 1
 %define libname		%mklibname %name %major
@@ -143,6 +143,10 @@ export CPPFLAGS="-I%_includedir/freetype2"
 %install
 rm -rf %{buildroot}
 %makeinstall
+%{__cp} -a config.h %{buildroot}%{_includedir}/poppler/
+
+%clean
+rm -rf %{buildroot}
 
 %post -n %{libname} -p /sbin/ldconfig
 %postun -n %{libname} -p /sbin/ldconfig
@@ -157,9 +161,6 @@ rm -rf %{buildroot}
 %post -n %{libnameqt4} -p /sbin/ldconfig
 %postun -n %{libnameqt4} -p /sbin/ldconfig
 %endif
-
-%clean
-rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
@@ -176,6 +177,7 @@ rm -rf %{buildroot}
 %{_libdir}/libpoppler.so
 %attr(644,root,root) %{_libdir}/libpoppler.*a
 %dir %{_includedir}/poppler
+%{_includedir}/poppler/config.h
 %{_includedir}/poppler/[A-Z]*
 %{_includedir}/poppler/goo
 %{_includedir}/poppler/splash

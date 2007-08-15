@@ -7,10 +7,10 @@
 %define libnameglib	%mklibname %name-glib %major
 %define libnameqt	%mklibname %name-qt %qtmajor
 %define libnameqt4	%mklibname %name-qt4- %qtmajor
-%define libnamedev	%mklibname -d %name %major
-%define libnameglibdev	%mklibname -d %name-glib %major
-%define libnameqtdev	%mklibname -d %name-qt %qtmajor
-%define libnameqt4dev	%mklibname -d %name-qt4- %qtmajor
+%define libnamedev	%mklibname -d %name
+%define libnameglibdev	%mklibname -d %name-glib
+%define libnameqtdev	%mklibname -d %name-qt
+%define libnameqt4dev	%mklibname -d %name-qt4 
 
 %define qt4support 1
 
@@ -51,6 +51,7 @@ Summary:	Development files for %{name}
 Group:		Development/C++
 Provides:	lib%{name}-devel = %{version}
 Requires:	%{libname} = %{version}
+Obsoletes:	%{libname}-devel
 
 %description -n %{libnamedev}
 Development files for %{name}
@@ -69,6 +70,7 @@ Group:		Development/C++
 Provides:	lib%{name}-qt-devel = %{version}
 Requires:	%{libnameqt} = %{version}
 Requires:	%libnamedev = %version
+Obsoletes:	%libnameqt-devel
 
 %description -n %{libnameqt}-devel
 Development files for %{name}-qt
@@ -81,6 +83,7 @@ Group:      Development/C++
 Provides:   lib%{name}-qt4-devel = %{version}
 Requires:   %{libnameqt4} = %{version}
 Requires:   %libnamedev = %version
+Obsoletes:  %libnameqt4-devel
 
 %description -n %{libnameqt4dev}
 Development files for %{name}-qt4
@@ -110,6 +113,7 @@ Provides:	lib%{name}glib-devel = %{version}
 Requires:	%{libnameglib} = %{version}
 Requires:	%{libnamedev} = %{version}
 Conflicts: %libnamedev < %version-%release
+Obsoletes:	%libnameglib-devel
 
 %description -n %{libnameglibdev}
 Development files for %{name}'s glib binding.

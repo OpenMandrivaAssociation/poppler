@@ -72,7 +72,7 @@ Requires:	%{libnameqt} = %{version}
 Requires:	%libnamedev = %version
 Obsoletes:	%libnameqt-devel
 
-%description -n %{libnameqt}-devel
+%description -n %{libnameqtdev}
 Development files for %{name}-qt
 
 

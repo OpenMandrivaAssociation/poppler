@@ -1,6 +1,6 @@
 %define	name		poppler
-%define version 0.5.9
-%define release %mkrel 4
+%define version 0.5.91
+%define release %mkrel 1
 %define major 1
 %define qtmajor 1
 %define libname		%mklibname %name %major
@@ -24,7 +24,6 @@ URL:		http://poppler.freedesktop.org
 Source:		%{name}-%{version}.tar.bz2
 Patch0:		poppler-0.5.3-refcount.patch
 Patch1:		poppler-0.5.3-init.patch
-Patch2:		poppler-0.5.9-CVE-2007-3387.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires:  qt3-devel
 %if %qt4support
@@ -119,7 +118,6 @@ Development files for %{name}'s glib binding.
 %setup -q
 %patch0 -p0
 %patch1 -p0
-%patch2 -p1
 
 perl -pi -e "s@/lib(\"|\b[^/])@/%_lib\1@g if /(kde|qt|qt4)_(libdirs|libraries)=/" configure
 

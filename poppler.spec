@@ -1,6 +1,6 @@
 %define	name		poppler
 %define version 0.5.91
-%define release %mkrel 1
+%define release %mkrel 2
 %define major 1
 %define qtmajor 1
 %define libname		%mklibname %name %major
@@ -42,6 +42,7 @@ Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 %package -n %{libname}
 Summary:	PDF rendering library
 Group:          System/Libraries
+Suggests:	poppler-data
 
 %description -n %{libname}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.

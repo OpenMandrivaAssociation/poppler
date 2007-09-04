@@ -1,5 +1,5 @@
 %define	name		poppler
-%define version 0.5.91
+%define version 0.6
 %define release %mkrel 2
 %define major 1
 %define qtmajor 1
@@ -21,7 +21,7 @@ Release:	%{release}
 License:	GPL
 Group:		System/Libraries
 URL:		http://poppler.freedesktop.org
-Source:		%{name}-%{version}.tar.bz2
+Source:		%{name}-%{version}.tar.gz
 Patch0:		poppler-0.5.3-refcount.patch
 Patch1:		poppler-0.5.3-init.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot

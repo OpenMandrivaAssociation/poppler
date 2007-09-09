@@ -1,6 +1,6 @@
 %define	name		poppler
 %define version 0.6
-%define release %mkrel 1
+%define release %mkrel 2
 %define major 2
 %define qtmajor 2
 %define libname		%mklibname %name %major
@@ -110,7 +110,7 @@ Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 %package -n %{libnameglibdev}
 Summary:	Development files for %{name}'s glib binding
 Group:		Development/C++
-Provides:	lib%{name}glib-devel = %{version}
+Provides:	lib%{name}-glib-devel = %{version}
 Requires:	%{libnameglib} = %{version}
 Requires:	%{libnamedev} = %{version}
 Conflicts: %libnamedev < %version-%release
@@ -226,5 +226,3 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{_libdir}/libpoppler-qt4.so.%{qtmajor}*
 %endif
-
-

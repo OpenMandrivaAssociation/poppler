@@ -1,6 +1,6 @@
 %define	name		poppler
-%define version 0.6
-%define release %mkrel 3
+%define version 0.6.1
+%define release %mkrel 1
 %define major 2
 %define qtmajor 2
 %define libname		%mklibname %name %major

@@ -1,5 +1,5 @@
 %define	name		poppler
-%define version 0.6.1
+%define version 0.6.2
 %define release %mkrel 1
 %define major 2
 %define qtmajor 2
@@ -18,10 +18,10 @@ Summary:	PDF rendering library
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
-License:	GPL
+License:	GPLv2+
 Group:		System/Libraries
 URL:		http://poppler.freedesktop.org
-Source:		%{name}-%{version}.tar.gz
+Source:		http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
 Patch0:		poppler-0.5.3-refcount.patch
 Patch1:		poppler-0.5.3-init.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -31,7 +31,7 @@ BuildRequires:	qt4-devel
 %endif
 BuildRequires:  gtk2-devel
 BuildRequires:  cairo-devel >= 0.5.0
-BuildRequires:  automake1.9
+BuildRequires:  automake
 Conflicts: 	xpdf-tools
 Obsoletes:	pdftohtml
 Provides:	pdftohtml

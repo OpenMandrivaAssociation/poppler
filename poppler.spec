@@ -1,6 +1,6 @@
 %define	name		poppler
 %define version 0.6.2
-%define release %mkrel 1
+%define release %mkrel 2
 %define major 2
 %define qtmajor 2
 %define libname		%mklibname %name %major
@@ -33,6 +33,8 @@ BuildRequires:  gtk2-devel
 BuildRequires:  cairo-devel >= 0.5.0
 BuildRequires:  automake
 Conflicts: 	xpdf-tools
+# Before 3.01pl2-2mdk xpdf-tools where in xpdf package
+Conflicts:	xpdf < 3.01pl2-2mdk
 Obsoletes:	pdftohtml
 Provides:	pdftohtml
 

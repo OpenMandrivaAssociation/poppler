@@ -24,7 +24,6 @@ URL:		http://poppler.freedesktop.org
 Source:		http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
 Patch0:		poppler-0.5.3-refcount.patch
 Patch1:		poppler-0.5.3-init.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires:  qt3-devel
 %if %qt4support
 BuildRequires:	qt4-devel

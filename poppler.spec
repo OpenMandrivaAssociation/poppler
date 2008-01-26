@@ -1,6 +1,3 @@
-%define	name		poppler
-%define version 0.6.3
-%define release %mkrel 1
 %define major 2
 %define qtmajor 2
 %define libname		%mklibname %name %major
@@ -14,17 +11,17 @@
 
 %define qt4support 1
 
-Summary:	PDF rendering library
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
-License:	GPLv2+
-Group:		System/Libraries
-URL:		http://poppler.freedesktop.org
-Source:		http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
-Patch0:		poppler-0.5.3-refcount.patch
-Patch1:		poppler-0.5.3-init.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
+Name: poppler
+Version: 0.6.4
+Release: %mkrel 1
+License: GPLv2+
+Group: System/Libraries
+URL: http://poppler.freedesktop.org
+Summary: PDF rendering library
+Source:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
+Patch0:	poppler-0.5.3-refcount.patch
+Patch1:	poppler-0.5.3-init.patch
+BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires:  qt3-devel
 %if %qt4support
 BuildRequires:	qt4-devel

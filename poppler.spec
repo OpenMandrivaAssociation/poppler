@@ -1,9 +1,9 @@
-%define major 2
+%define major 3
 %define qtmajor 2
 %define libname		%mklibname %name %major
 %define libnameglib	%mklibname %name-glib %major
+%define libnameqt4	%mklibname %name-qt4- %major
 %define libnameqt	%mklibname %name-qt %qtmajor
-%define libnameqt4	%mklibname %name-qt4- %qtmajor
 %define libnamedev	%mklibname -d %name
 %define libnameglibdev	%mklibname -d %name-glib
 %define libnameqtdev	%mklibname -d %name-qt
@@ -12,8 +12,8 @@
 %define qt4support 1
 
 Name: poppler
-Version: 0.6.4
-Release: %mkrel 2
+Version: 0.8.0
+Release: %mkrel 1
 License: GPLv2+
 Group: System/Libraries
 URL: http://poppler.freedesktop.org
@@ -224,5 +224,5 @@ rm -rf %{buildroot}
 
 %files -n %{libnameqt4}
 %defattr(-,root,root)
-%{_libdir}/libpoppler-qt4.so.%{qtmajor}*
+%{_libdir}/libpoppler-qt4.so.%{major}*
 %endif

@@ -12,7 +12,7 @@
 %define qt4support 1
 
 Name: poppler
-Version: 0.8.1
+Version: 0.8.2
 Release: %mkrel 1
 License: GPLv2+
 Group: System/Libraries

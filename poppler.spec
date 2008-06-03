@@ -203,11 +203,11 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/poppler-glib.pc
 %{_includedir}/poppler/glib
 
+%if %qt3support
 %files -n %{libnameqt}
 %defattr(-,root,root)
 %{_libdir}/libpoppler-qt.so.%{qtmajor}*
 
-%if %qt3support
 %files -n %{libnameqtdev}
 %defattr(-,root,root)
 %{_libdir}/libpoppler-qt.so

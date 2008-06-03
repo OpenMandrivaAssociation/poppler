@@ -9,10 +9,10 @@
 %define libnameqtdev	%mklibname -d %name-qt
 %define libnameqt4dev	%mklibname -d %name-qt4 
 
-%define qt4support 1
+%define qt3support 0
 
 Name: poppler
-Version: 0.8.2
+Version: 0.8.3
 Release: %mkrel 1
 License: GPLv2+
 Group: System/Libraries
@@ -22,9 +22,9 @@ Source:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
 Patch0:	poppler-0.5.3-refcount.patch
 Patch1:	poppler-0.5.3-init.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
-BuildRequires:  qt3-devel
-%if %qt4support
 BuildRequires:	qt4-devel
+%if %qt3support
+BuildRequires:  qt3-devel
 %endif
 BuildRequires:  gtk2-devel
 BuildRequires:  cairo-devel >= 0.5.0
@@ -65,6 +65,7 @@ Group:          System/Libraries
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 This is the QT backend version.
 
+%if %qt3support
 %package -n %{libnameqtdev}
 Summary:	Development files for %{name}-qt
 Group:		Development/C++
@@ -76,8 +77,8 @@ Obsoletes:	%libnameqt-devel
 %description -n %{libnameqtdev}
 Development files for %{name}-qt
 
+%endif
 
-%if %qt4support
 %package  -n %{libnameqt4dev}
 Summary:    Development files for %{name}-qt4
 Group:      Development/C++
@@ -97,7 +98,6 @@ Group:          System/Libraries
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 This is the QT backend version.
 
-%endif
 
 %package -n %{libnameglib}
 Summary:	PDF rendering library - glib binding
@@ -135,12 +135,12 @@ perl -pi -e 's@qt4_libdirs="/usr/local/qt/lib.*$@qt4_libdirs="/usr/lib/qt4/%_lib
 export CPPFLAGS="-I%_includedir/freetype2"
 %configure2_5x \
 	--enable-a4-paper \
-	--enable-poppler-qt \
 	--enable-cairo-output \
-%if %qt4support	
 	--enable-poppler-qt4 \
+%if %qt3support	
+	--enable-poppler-qt \
 %else
-	--disable-poppler-qt4 \
+	--disable-poppler-qt \
 %endif	
 	--enable-xpdf-headers
 %make
@@ -159,13 +159,13 @@ rm -rf %{buildroot}
 %post -n %{libnameglib} -p /sbin/ldconfig
 %postun -n %{libnameglib} -p /sbin/ldconfig
 
+%if %qt3support
 %post -n %{libnameqt} -p /sbin/ldconfig
 %postun -n %{libnameqt} -p /sbin/ldconfig
+%endif
 
-%if %qt4support
 %post -n %{libnameqt4} -p /sbin/ldconfig
 %postun -n %{libnameqt4} -p /sbin/ldconfig
-%endif
 
 %files
 %defattr(-,root,root)
@@ -207,14 +207,15 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{_libdir}/libpoppler-qt.so.%{qtmajor}*
 
+%if %qt3support
 %files -n %{libnameqtdev}
 %defattr(-,root,root)
 %{_libdir}/libpoppler-qt.so
 %attr(644,root,root) %{_libdir}/libpoppler-qt.*a
 %{_libdir}/pkgconfig/poppler-qt.pc
 %_includedir/poppler/qt3
+%endif
 
-%if %qt4support
 %files -n %{libnameqt4dev}
 %defattr(-,root,root)
 %_includedir/poppler/qt4
@@ -225,4 +226,3 @@ rm -rf %{buildroot}
 %files -n %{libnameqt4}
 %defattr(-,root,root)
 %{_libdir}/libpoppler-qt4.so.%{major}*
-%endif

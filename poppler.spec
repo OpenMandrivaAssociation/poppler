@@ -153,19 +153,35 @@ rm -rf %{buildroot}
 %clean
 rm -rf %{buildroot}
 
+%if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
 %postun -n %{libname} -p /sbin/ldconfig
-
-%post -n %{libnameglib} -p /sbin/ldconfig
-%postun -n %{libnameglib} -p /sbin/ldconfig
-
-%if %qt3support
-%post -n %{libnameqt} -p /sbin/ldconfig
-%postun -n %{libnameqt} -p /sbin/ldconfig
 %endif
 
+%if %mdkversion < 200900
+%post -n %{libnameglib} -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
+%postun -n %{libnameglib} -p /sbin/ldconfig
+%endif
+
+%if %qt3support
+%if %mdkversion < 200900
+%post -n %{libnameqt} -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
+%postun -n %{libnameqt} -p /sbin/ldconfig
+%endif
+%endif
+
+%if %mdkversion < 200900
 %post -n %{libnameqt4} -p /sbin/ldconfig
+%endif
+%if %mdkversion < 200900
 %postun -n %{libnameqt4} -p /sbin/ldconfig
+%endif
 
 %files
 %defattr(-,root,root)

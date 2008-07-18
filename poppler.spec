@@ -12,7 +12,7 @@
 %define qt3support 0
 
 Name: poppler
-Version: 0.8.3
+Version: 0.8.4
 Release: %mkrel 1
 License: GPLv2+
 Group: System/Libraries
@@ -20,7 +20,6 @@ URL: http://poppler.freedesktop.org
 Summary: PDF rendering library
 Source:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
 Patch0:	poppler-0.5.3-refcount.patch
-Patch1:	poppler-0.5.3-init.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires:	qt4-devel
 %if %qt3support
@@ -122,7 +121,6 @@ Development files for %{name}'s glib binding.
 %prep
 %setup -q
 #%patch0 -p0
-%patch1 -p0
 
 perl -pi -e "s@/lib(\"|\b[^/])@/%_lib\1@g if /(kde|qt|qt4)_(libdirs|libraries)=/" configure
 

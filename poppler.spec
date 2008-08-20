@@ -13,7 +13,7 @@
 
 Name: poppler
 Version: 0.8.6
-Release: %mkrel 1
+Release: %mkrel 2
 License: GPLv2+
 Group: System/Libraries
 URL: http://poppler.freedesktop.org
@@ -23,11 +23,12 @@ Patch0:	poppler-0.5.3-refcount.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires:	qt4-devel
 %if %qt3support
-BuildRequires:  qt3-devel
+BuildRequires: qt3-devel
 %endif
-BuildRequires:  gtk2-devel
-BuildRequires:  cairo-devel >= 0.5.0
-BuildRequires:  automake
+BuildRequires: gtk2-devel
+BuildRequires: cairo-devel >= 0.5.0
+BuildRequires: automake
+BuildRequires: jpeg-devel
 Obsoletes: 	xpdf-tools < 3.02-10mdv
 Provides:	xpdf-tools
 # Before 3.01pl2-2mdk xpdf-tools where in xpdf package

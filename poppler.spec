@@ -131,7 +131,7 @@ perl -pi -e 's@qt4_libdirs="/usr/local/qt/lib.*$@qt4_libdirs="/usr/lib/qt4/%_lib
 
 %build
 export CPPFLAGS="-I%_includedir/freetype2"
-export PATH="${PATH}:%qt4dir/bin"
+export PATH="%qt4dir/bin:${PATH}"
 
 %if %qt3support
 export POPPER_QT_LIBS="%_libdir/libqt-mt.la"

@@ -9,17 +9,17 @@
 %define libnameqtdev	%mklibname -d %name-qt
 %define libnameqt4dev	%mklibname -d %name-qt4 
 
-%define qt3support 0
+%define qt3support 1
 
 Name: poppler
 Version: 0.8.7
-Release: %mkrel 1
+Release: %mkrel 2
 License: GPLv2+
 Group: System/Libraries
 URL: http://poppler.freedesktop.org
 Summary: PDF rendering library
 Source:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
-Patch0:	poppler-0.5.3-refcount.patch
+Patch0: poppler-0.8.7-qt3-configure.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires:	qt4-devel
 %if %qt3support
@@ -121,7 +121,7 @@ Development files for %{name}'s glib binding.
 
 %prep
 %setup -q
-#%patch0 -p0
+%patch0 -p0 -b .orig
 
 perl -pi -e "s@/lib(\"|\b[^/])@/%_lib\1@g if /(kde|qt|qt4)_(libdirs|libraries)=/" configure
 
@@ -130,8 +130,11 @@ perl -pi -e 's@qt4_incdirs="/usr/local/qt/include.*$@qt4_incdirs="/usr/lib/qt4/i
 perl -pi -e 's@qt4_libdirs="/usr/local/qt/lib.*$@qt4_libdirs="/usr/lib/qt4/%_lib"@' configure
 
 %build
-
 export CPPFLAGS="-I%_includedir/freetype2"
+%if %qt3support
+export POPPER_QT_LIBS="%_libdir/libqt-mt.la"
+%endif
+
 %configure2_5x \
 	--enable-a4-paper \
 	--enable-cairo-output \

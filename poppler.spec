@@ -23,6 +23,7 @@ Source:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
 Patch0: poppler-0.8.7-qt3-configure.patch
 Patch1: poppler-0.10.2-fix-str-fmt.patch
 Patch2: poppler-ObjStream.patch
+Patch3: poppler-10.3-fix-str-fmt.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires: qt4-devel
 %if %qt3support
@@ -127,6 +128,7 @@ Development files for %{name}'s glib binding.
 %patch0 -p0 -b .orig
 %patch1 -p0 -b .str
 %patch2 -p0 -b .objstream
+%patch3 -p0 -b .str2
 
 autoreconf -i -f
 
@@ -137,6 +139,7 @@ perl -pi -e 's@qt4_incdirs="/usr/local/qt/include.*$@qt4_incdirs="/usr/lib/qt4/i
 perl -pi -e 's@qt4_libdirs="/usr/local/qt/lib.*$@qt4_libdirs="/usr/lib/qt4/%_lib"@' configure
 
 %build
+%define _disable_ld_no_undefined 1
 export CPPFLAGS="-I%_includedir/freetype2"
 export PATH="%qt4dir/bin:${PATH}"
 

@@ -20,10 +20,8 @@ Group: System/Libraries
 URL: http://poppler.freedesktop.org
 Summary: PDF rendering library
 Source:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
-Patch0: poppler-0.8.7-qt3-configure.patch
-Patch1: poppler-0.10.2-fix-str-fmt.patch
+Patch1: poppler-fix-str-fmt.patch
 Patch2: poppler-ObjStream.patch
-Patch3: poppler-10.3-fix-str-fmt.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires: qt4-devel
 %if %qt3support
@@ -125,12 +123,8 @@ Development files for %{name}'s glib binding.
 
 %prep
 %setup -q
-%patch0 -p0 -b .orig
-%patch1 -p0 -b .str
+%patch1 -p0 -b .str_fmt
 %patch2 -p0 -b .objstream
-%patch3 -p0 -b .str2
-
-autoreconf -i -f
 
 perl -pi -e "s@/lib(\"|\b[^/])@/%_lib\1@g if /(kde|qt|qt4)_(libdirs|libraries)=/" configure
 

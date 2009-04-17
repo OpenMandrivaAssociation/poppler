@@ -123,7 +123,7 @@ Development files for %{name}'s glib binding.
 
 %prep
 %setup -q
-%patch1 -p0 -b .str_fmt
+%patch1 -p1 -b .str_fmt
 %patch2 -p0 -b .objstream
 
 perl -pi -e "s@/lib(\"|\b[^/])@/%_lib\1@g if /(kde|qt|qt4)_(libdirs|libraries)=/" configure

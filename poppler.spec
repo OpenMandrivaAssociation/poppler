@@ -1,8 +1,9 @@
-%define major 4
+%define major 5
+%define glibmajor 4
 %define qt3major 2
 %define qt4major 3
 %define libname		%mklibname %name %major
-%define libnameglib	%mklibname %name-glib %major
+%define libnameglib	%mklibname %name-glib %glibmajor
 %define libnameqt4	%mklibname %name-qt4- %qt4major
 %define libnameqt	%mklibname %name-qt %qt3major
 %define libnamedev	%mklibname -d %name
@@ -13,7 +14,7 @@
 %define qt3support 1
 
 Name: poppler
-Version: 0.10.7
+Version: 0.11.0
 Release: %mkrel 1
 License: GPLv2+
 Group: System/Libraries
@@ -28,7 +29,7 @@ BuildRequires: qt4-devel
 BuildRequires: qt3-devel
 %endif
 BuildRequires: gtk2-devel
-BuildRequires: cairo-devel >= 0.5.0
+BuildRequires: cairo-devel >= 1.8.4
 BuildRequires: automake
 BuildRequires: jpeg-devel
 Obsoletes: 	xpdf-tools < 3.02-10mdv
@@ -163,31 +164,16 @@ rm -rf %{buildroot}
 
 %if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
 %postun -n %{libname} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
 %post -n %{libnameglib} -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
 %postun -n %{libnameglib} -p /sbin/ldconfig
-%endif
 
 %if %qt3support
-%if %mdkversion < 200900
 %post -n %{libnameqt} -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
 %postun -n %{libnameqt} -p /sbin/ldconfig
 %endif
-%endif
 
-%if %mdkversion < 200900
 %post -n %{libnameqt4} -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
 %postun -n %{libnameqt4} -p /sbin/ldconfig
 %endif
 
@@ -208,6 +194,7 @@ rm -rf %{buildroot}
 %dir %{_includedir}/poppler
 %{_includedir}/poppler/config.h
 %{_includedir}/poppler/[A-Z]*
+%{_includedir}/poppler/fofi
 %{_includedir}/poppler/goo
 %{_includedir}/poppler/splash
 %{_includedir}/poppler/poppler-config.h
@@ -218,7 +205,7 @@ rm -rf %{buildroot}
 
 %files -n %{libnameglib}
 %defattr(-,root,root)
-%{_libdir}/libpoppler-glib.so.%{major}*
+%{_libdir}/libpoppler-glib.so.%{glibmajor}*
 
 %files -n %{libnameglibdev}
 %defattr(-,root,root)

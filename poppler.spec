@@ -14,7 +14,7 @@
 %define qt3support 1
 
 Name: poppler
-Version: 0.11.0
+Version: 0.11.1
 Release: %mkrel 1
 License: GPLv2+
 Group: System/Libraries
@@ -30,8 +30,8 @@ BuildRequires: qt3-devel
 %endif
 BuildRequires: gtk2-devel
 BuildRequires: cairo-devel >= 1.8.4
-BuildRequires: automake
 BuildRequires: jpeg-devel
+BuildRequires: gtk-doc
 Obsoletes: 	xpdf-tools < 3.02-10mdv
 Provides:	xpdf-tools
 # Before 3.01pl2-2mdk xpdf-tools where in xpdf package
@@ -143,7 +143,6 @@ export POPPER_QT_LIBS="%_libdir/libqt-mt.la"
 %endif
 
 %configure2_5x \
-	--enable-a4-paper \
 	--enable-cairo-output \
 	--enable-poppler-qt4 \
 %if %qt3support
@@ -151,7 +150,8 @@ export POPPER_QT_LIBS="%_libdir/libqt-mt.la"
 %else
 	--disable-poppler-qt \
 %endif
-	--enable-xpdf-headers
+	--enable-xpdf-headers \
+	--enable-gtk-doc
 %make
 
 %install
@@ -201,7 +201,7 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/poppler-cairo.pc
 %{_libdir}/pkgconfig/poppler-splash.pc
 %{_libdir}/pkgconfig/poppler.pc
-%_datadir/gtk-doc/html/%name
+#%_datadir/gtk-doc/html/%name
 
 %files -n %{libnameglib}
 %defattr(-,root,root)

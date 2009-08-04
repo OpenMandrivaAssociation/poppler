@@ -14,7 +14,7 @@
 %define qt3support 1
 
 Name: poppler
-Version: 0.11.1
+Version: 0.11.2
 Release: %mkrel 1
 License: GPLv2+
 Group: System/Libraries
@@ -201,7 +201,7 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/poppler-cairo.pc
 %{_libdir}/pkgconfig/poppler-splash.pc
 %{_libdir}/pkgconfig/poppler.pc
-#%_datadir/gtk-doc/html/%name
+%{_datadir}/gtk-doc/html/%name
 
 %files -n %{libnameglib}
 %defattr(-,root,root)

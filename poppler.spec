@@ -14,8 +14,8 @@
 %define qt3support 1
 
 Name: poppler
-Version: 0.11.2
-Release: %mkrel 2
+Version: 0.11.3
+Release: %mkrel 1
 License: GPLv2+
 Group: System/Libraries
 URL: http://poppler.freedesktop.org

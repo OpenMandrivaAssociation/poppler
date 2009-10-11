@@ -15,9 +15,9 @@
 
 Name: poppler
 Version: 0.12.0
-Release: %mkrel 1
+Release: %mkrel 2
 License: GPLv2+
-Group: System/Libraries
+Group: Office
 URL: http://poppler.freedesktop.org
 Summary: PDF rendering library
 Source:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz

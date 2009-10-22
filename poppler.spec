@@ -14,15 +14,17 @@
 %define qt3support 1
 
 Name: poppler
-Version: 0.12.0
-Release: %mkrel 3
+Version: 0.12.1
+Release: %mkrel 1
 License: GPLv2+
 Group: Office
 URL: http://poppler.freedesktop.org
 Summary: PDF rendering library
 Source:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
-Patch2: poppler-ObjStream.patch
-Patch3: poppler-0.12-CVE-2009-3608,3609.patch
+## upstreamable patches
+# for texlive/pdftex, make ObjStream class public
+Patch0: poppler-0.12.1-objstream.patch
+Patch1: poppler-0.12-CVE-2009-3608,3609.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires: qt4-devel
 %if %qt3support
@@ -123,9 +125,10 @@ Obsoletes:	%libnameglib-devel
 Development files for %{name}'s glib binding.
 
 %prep
+
 %setup -q
-%patch2 -p0 -b .objstream
-%patch3 -p1 -b .cve-2009-3608,3609.patch
+%patch0 -p1 -b .objstream
+%patch1 -p0 -b .cve-2009-3608,3609.patch
 
 perl -pi -e "s@/lib(\"|\b[^/])@/%_lib\1@g if /(kde|qt|qt4)_(libdirs|libraries)=/" configure
 

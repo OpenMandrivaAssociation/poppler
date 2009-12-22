@@ -15,7 +15,7 @@
 
 Name: poppler
 Version: 0.12.2
-Release: %mkrel 1
+Release: %mkrel 2
 License: GPLv2+
 Group: Office
 URL: http://poppler.freedesktop.org
@@ -33,6 +33,7 @@ BuildRequires: qt3-devel
 BuildRequires: gtk2-devel
 BuildRequires: cairo-devel >= 1.8.4
 BuildRequires: jpeg-devel
+BuildRequires: openjpeg-devel
 BuildRequires: gtk-doc
 Obsoletes: 	xpdf-tools < 3.02-10mdv
 Provides:	xpdf-tools

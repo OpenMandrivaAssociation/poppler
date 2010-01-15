@@ -15,7 +15,7 @@
 
 Name: poppler
 Version: 0.12.3
-Release: %mkrel 2
+Release: %mkrel 3
 License: GPLv2+
 Group: Office
 URL: http://poppler.freedesktop.org
@@ -25,6 +25,8 @@ Source:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
 # for texlive/pdftex, make ObjStream class public
 Patch0: poppler-0.12.1-objstream.patch
 Patch1: poppler-0.12-CVE-2009-3608,3609.patch
+# (fc) 0.12.3-3mdv improve cairo prescaling (fdo #5589) (Huug)
+Patch2: poppler-0.12-fixscaling.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires: qt4-devel
 %if %qt3support
@@ -130,6 +132,7 @@ Development files for %{name}'s glib binding.
 %setup -q
 %patch0 -p1 -b .objstream
 %patch1 -p0 -b .cve-2009-3608,3609.patch
+%patch2 -p1 -b .fixscaling
 
 perl -pi -e "s@/lib(\"|\b[^/])@/%_lib\1@g if /(kde|qt|qt4)_(libdirs|libraries)=/" configure
 

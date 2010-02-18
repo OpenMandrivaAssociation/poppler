@@ -14,8 +14,8 @@
 %define qt3support 1
 
 Name: poppler
-Version: 0.12.3
-Release: %mkrel 6
+Version: 0.12.4
+Release: %mkrel 1
 License: GPLv2+
 Group: Office
 URL: http://poppler.freedesktop.org
@@ -27,8 +27,6 @@ Patch0: poppler-0.12.1-objstream.patch
 Patch1: poppler-0.12-CVE-2009-3608,3609.patch
 # (fc) 0.12.3-3mdv improve cairo prescaling (fdo #5589) (carlos)
 Patch2: poppler-0.12-fixscaling.patch
-# (fc) 0.12.3-5mdv fix mask (fdo #16906) (GIT)
-Patch3: poppler-0.12.3-fix-mask.patch
 # (fc) 0.12.3-6mdv fix rotation (fdo #26264) (Carlos)
 Patch4: poppler-0.12.3-fix-rotation.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
@@ -137,7 +135,6 @@ Development files for %{name}'s glib binding.
 %patch0 -p1 -b .objstream
 %patch1 -p0 -b .cve-2009-3608,3609.patch
 %patch2 -p1 -b .fixscaling
-%patch3 -p1 -b .fixmask
 %patch4 -p1 -b .fixrotation
 
 #needed by patch2

@@ -1,21 +1,24 @@
-%define major 5
-%define glibmajor 4
+%define major 6
+%define glibmajor 5
 %define qt3major 2
 %define qt4major 3
+%define cppmajor 0
 %define libname		%mklibname %name %major
 %define libnameglib	%mklibname %name-glib %glibmajor
 %define libnameqt4	%mklibname %name-qt4- %qt4major
 %define libnameqt	%mklibname %name-qt %qt3major
+%define libnamecpp	%mklibname %name-cpp %cppmajor
 %define libnamedev	%mklibname -d %name
 %define libnameglibdev	%mklibname -d %name-glib
 %define libnameqtdev	%mklibname -d %name-qt
 %define libnameqt4dev	%mklibname -d %name-qt4
+%define libnamecppdev   %mklibname -d %name-cpp
 
 %define qt3support 1
 
 Name: poppler
-Version: 0.12.4
-Release: %mkrel 2
+Version: 0.14.0
+Release: %mkrel 1
 License: GPLv2+
 Group: Office
 URL: http://poppler.freedesktop.org
@@ -25,10 +28,6 @@ Source:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
 # for texlive/pdftex, make ObjStream class public
 Patch0: poppler-0.12.1-objstream.patch
 Patch1: poppler-0.12-CVE-2009-3608,3609.patch
-# (fc) 0.12.3-3mdv improve cairo prescaling (fdo #5589) (carlos)
-Patch2: poppler-0.12-fixscaling.patch
-# (fc) 0.12.3-6mdv fix rotation (fdo #26264) (Carlos)
-Patch4: poppler-0.12.3-fix-rotation.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires: qt4-devel
 %if %qt3support
@@ -89,6 +88,14 @@ Development files for %{name}-qt
 
 %endif
 
+%package -n %{libnamecpp}
+Summary:	PDF rendering library - C++ backend
+Group:          System/Libraries
+
+%description -n %{libnamecpp}
+Poppler is a PDF rendering library based on the xpdf-3.0 code base.
+This is the C++ backend version.
+
 %package  -n %{libnameqt4dev}
 Summary:    Development files for %{name}-qt4
 Group:      Development/C++
@@ -129,16 +136,24 @@ Obsoletes:	%libnameglib-devel
 %description -n %{libnameglibdev}
 Development files for %{name}'s glib binding.
 
+%package -n %{libnamecppdev}
+Summary:	Development files for %{name}-cpp
+Group:		Development/C++
+Provides:	lib%{name}-cpp-devel = %{version}
+Requires:	%{libnamecpp} = %{version}
+Requires:	%libnamedev = %version
+
+%description -n %{libnamecppdev}
+Development files for %{name}-cpp
+
 %prep
 
 %setup -q
 %patch0 -p1 -b .objstream
 %patch1 -p0 -b .cve-2009-3608,3609.patch
-%patch2 -p1 -b .fixscaling
-%patch4 -p1 -b .fixrotation
 
 #needed by patch2
-autoreconf
+#autoreconf
 
 %build
 export CPPFLAGS="-I%_includedir/freetype2"
@@ -243,3 +258,14 @@ rm -rf %{buildroot}
 %files -n %{libnameqt4}
 %defattr(-,root,root)
 %{_libdir}/libpoppler-qt4.so.%{qt4major}*
+
+%files -n %{libnamecpp}
+%defattr(-,root,root)
+%{_libdir}/libpoppler-cpp.so.%{cppmajor}*
+
+%files -n %{libnamecppdev}
+%defattr(-,root,root)
+%{_libdir}/libpoppler-cpp.so
+%attr(644,root,root) %{_libdir}/libpoppler-cpp.*a
+%{_libdir}/pkgconfig/poppler-cpp.pc
+%_includedir/poppler/cpp

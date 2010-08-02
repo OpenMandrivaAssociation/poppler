@@ -140,14 +140,7 @@ Development files for %{name}'s glib binding.
 #needed by patch2
 autoreconf
 
-perl -pi -e "s@/lib(\"|\b[^/])@/%_lib\1@g if /(kde|qt|qt4)_(libdirs|libraries)=/" configure
-
-perl -pi -e "s@/lib(\"|\b[^/])@/%_lib\1@g if /(kde|qt|qt4)_(libdirs|libraries)=/" configure
-perl -pi -e 's@qt4_incdirs="/usr/local/qt/include.*$@qt4_incdirs="/usr/lib/qt4/include"@' configure
-perl -pi -e 's@qt4_libdirs="/usr/local/qt/lib.*$@qt4_libdirs="/usr/lib/qt4/%_lib"@' configure
-
 %build
-%define _disable_ld_no_undefined 1
 export CPPFLAGS="-I%_includedir/freetype2"
 export PATH="%qt4dir/bin:${PATH}"
 
@@ -169,7 +162,7 @@ export POPPER_QT_LIBS="%_libdir/libqt-mt.la"
 
 %install
 rm -rf %{buildroot}
-%makeinstall
+%makeinstall_std
 %{__cp} -a config.h %{buildroot}%{_includedir}/poppler/
 
 %clean

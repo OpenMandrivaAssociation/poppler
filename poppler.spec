@@ -17,7 +17,7 @@
 %define qt3support 1
 
 Name: poppler
-Version: 0.14.2
+Version: 0.14.3
 Release: %mkrel 1
 License: GPLv2+
 Group: Office

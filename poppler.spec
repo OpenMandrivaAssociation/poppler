@@ -18,7 +18,7 @@
 
 Name: poppler
 Version: 0.14.4
-Release: %mkrel 1
+Release: %mkrel 2
 License: GPLv2+
 Group: Office
 URL: http://poppler.freedesktop.org
@@ -57,8 +57,8 @@ Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 %package -n %{libnamedev}
 Summary:	Development files for %{name}
 Group:		Development/C++
-Provides:	lib%{name}-devel = %{version}
-Requires:	%{libname} = %{version}
+Provides:	lib%{name}-devel = %{version}-%release
+Requires:	%{libname} = %{version}-%release
 Obsoletes:	%{libname}-devel
 
 %description -n %{libnamedev}

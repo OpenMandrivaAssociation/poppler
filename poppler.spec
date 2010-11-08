@@ -17,8 +17,8 @@
 %define qt3support 1
 
 Name: poppler
-Version: 0.14.4
-Release: %mkrel 2
+Version: 0.14.5
+Release: %mkrel 1
 License: GPLv2+
 Group: Office
 URL: http://poppler.freedesktop.org

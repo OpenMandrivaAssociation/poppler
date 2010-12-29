@@ -1,6 +1,6 @@
-%define major 7
-%define glibmajor 5
-%define qt3major 2
+%define major 12
+%define glibmajor 6
+%define qt3major 3
 %define qt4major 3
 %define cppmajor 0
 %define libname		%mklibname %name %major
@@ -17,7 +17,7 @@
 %define qt3support 1
 
 Name: poppler
-Version: 0.14.5
+Version: 0.16.0
 Release: %mkrel 1
 License: GPLv2+
 Group: Office
@@ -35,6 +35,7 @@ BuildRequires: gtk2-devel
 BuildRequires: cairo-devel >= 1.8.4
 BuildRequires: jpeg-devel
 BuildRequires: openjpeg-devel
+BuildRequires: gobject-introspection-devel
 BuildRequires: gtk-doc
 Obsoletes: 	xpdf-tools < 3.02-10mdv
 Provides:	xpdf-tools
@@ -204,6 +205,7 @@ rm -rf %{buildroot}
 %files -n %{libname}
 %defattr(-,root,root)
 %{_libdir}/libpoppler.so.%{major}*
+%_libdir/girepository-1.0/Poppler-0.16.typelib
 
 %files -n %{libnamedev}
 %defattr(-,root,root)
@@ -220,6 +222,7 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/poppler-splash.pc
 %{_libdir}/pkgconfig/poppler.pc
 %{_datadir}/gtk-doc/html/%name
+%_datadir/gir-1.0/Poppler-0.16.gir
 
 %files -n %{libnameglib}
 %defattr(-,root,root)

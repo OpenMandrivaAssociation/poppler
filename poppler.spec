@@ -1,4 +1,4 @@
-%define major 12
+%define major 13
 %define glibmajor 6
 %define qt3major 3
 %define qt4major 3
@@ -17,8 +17,8 @@
 %define qt3support 1
 
 Name: poppler
-Version: 0.16.2
-Release: %mkrel 2
+Version: 0.16.3
+Release: %mkrel 1
 License: GPLv2+
 Group: Office
 URL: http://poppler.freedesktop.org

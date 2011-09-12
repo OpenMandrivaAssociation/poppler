@@ -140,10 +140,6 @@ Development files for %{name}-cpp
 export CPPFLAGS="-I%_includedir/freetype2"
 export PATH="%qt4dir/bin:${PATH}"
 
-%if %qt3support
-export POPPLER_QT_LIBS="%_libdir/libqt-mt.la"
-%endif
-
 %configure2_5x \
 	--enable-cairo-output \
 	--enable-poppler-qt4 \

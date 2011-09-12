@@ -14,11 +14,10 @@
 %define libnameqt4dev	%mklibname -d %name-qt4
 %define libnamecppdev   %mklibname -d %name-cpp
 
-%define qt3support 1
 
 Name: poppler
 Version: 0.16.7
-Release: %mkrel 2
+Release: 3
 License: GPLv2+
 Group: Office
 URL: http://poppler.freedesktop.org
@@ -28,9 +27,6 @@ Source:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
 Patch1: poppler-0.12-CVE-2009-3608,3609.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires: qt4-devel
-%if %qt3support
-BuildRequires: qt3-devel
-%endif
 BuildRequires: gtk2-devel
 BuildRequires: cairo-devel >= 1.8.4
 BuildRequires: jpeg-devel
@@ -73,20 +69,6 @@ Group:          System/Libraries
 %description -n %{libnameqt}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 This is the QT backend version.
-
-%if %qt3support
-%package -n %{libnameqtdev}
-Summary:	Development files for %{name}-qt
-Group:		Development/C++
-Provides:	lib%{name}-qt-devel = %{version}
-Requires:	%{libnameqt} = %{version}
-Requires:	%libnamedev = %version
-Obsoletes:	%libnameqt-devel
-
-%description -n %{libnameqtdev}
-Development files for %{name}-qt
-
-%endif
 
 %package -n %{libnamecpp}
 Summary:	PDF rendering library - C++ backend
@@ -165,11 +147,7 @@ export POPPLER_QT_LIBS="%_libdir/libqt-mt.la"
 %configure2_5x \
 	--enable-cairo-output \
 	--enable-poppler-qt4 \
-%if %qt3support
-	--enable-poppler-qt \
-%else
 	--disable-poppler-qt \
-%endif
 	--enable-xpdf-headers \
 	--enable-gtk-doc
 %make
@@ -179,37 +157,16 @@ rm -rf %{buildroot}
 %makeinstall_std
 %{__cp} -a config.h %{buildroot}%{_includedir}/poppler/
 
-%clean
-rm -rf %{buildroot}
-
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%postun -n %{libname} -p /sbin/ldconfig
-%post -n %{libnameglib} -p /sbin/ldconfig
-%postun -n %{libnameglib} -p /sbin/ldconfig
-
-%if %qt3support
-%post -n %{libnameqt} -p /sbin/ldconfig
-%postun -n %{libnameqt} -p /sbin/ldconfig
-%endif
-
-%post -n %{libnameqt4} -p /sbin/ldconfig
-%postun -n %{libnameqt4} -p /sbin/ldconfig
-%endif
-
 %files
-%defattr(-,root,root)
 %doc AUTHORS COPYING NEWS README
 %_bindir/*
 %_mandir/man1/*
 
 %files -n %{libname}
-%defattr(-,root,root)
 %{_libdir}/libpoppler.so.%{major}*
 %_libdir/girepository-1.0/Poppler-0.16.typelib
 
 %files -n %{libnamedev}
-%defattr(-,root,root)
 %{_libdir}/libpoppler.so
 %attr(644,root,root) %{_libdir}/libpoppler.*a
 %dir %{_includedir}/poppler
@@ -226,47 +183,29 @@ rm -rf %{buildroot}
 %_datadir/gir-1.0/Poppler-0.16.gir
 
 %files -n %{libnameglib}
-%defattr(-,root,root)
 %{_libdir}/libpoppler-glib.so.%{glibmajor}*
 
 %files -n %{libnameglibdev}
-%defattr(-,root,root)
 %attr(644,root,root) %{_libdir}/libpoppler-glib.*a
 %{_libdir}/libpoppler-glib.so
 %{_libdir}/pkgconfig/poppler-glib.pc
 %{_includedir}/poppler/glib
 
-%if %qt3support
-%files -n %{libnameqt}
-%defattr(-,root,root)
-%{_libdir}/libpoppler-qt.so.%{qt3major}*
-
-%files -n %{libnameqtdev}
-%defattr(-,root,root)
-%{_libdir}/libpoppler-qt.so
-%attr(644,root,root) %{_libdir}/libpoppler-qt.*a
-%{_libdir}/pkgconfig/poppler-qt.pc
-%_includedir/poppler/qt3
-%endif
-
 %files -n %{libnameqt4dev}
-%defattr(-,root,root)
 %_includedir/poppler/qt4
 %{_libdir}/pkgconfig/poppler-qt4.pc
 %{_libdir}/libpoppler-qt4.so
 %attr(644,root,root) %{_libdir}/libpoppler-qt4.*a
 
 %files -n %{libnameqt4}
-%defattr(-,root,root)
 %{_libdir}/libpoppler-qt4.so.%{qt4major}*
 
 %files -n %{libnamecpp}
-%defattr(-,root,root)
 %{_libdir}/libpoppler-cpp.so.%{cppmajor}*
 
 %files -n %{libnamecppdev}
-%defattr(-,root,root)
 %{_libdir}/libpoppler-cpp.so
 %attr(644,root,root) %{_libdir}/libpoppler-cpp.*a
 %{_libdir}/pkgconfig/poppler-cpp.pc
 %_includedir/poppler/cpp
+

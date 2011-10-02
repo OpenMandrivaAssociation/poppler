@@ -17,7 +17,7 @@
 
 Name: poppler
 Version: 0.16.7
-Release: 3
+Release: 4
 License: GPLv2+
 Group: Office
 URL: http://poppler.freedesktop.org

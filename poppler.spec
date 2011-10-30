@@ -1,5 +1,5 @@
-%define major 13
-%define glibmajor 6
+%define major 18
+%define glibmajor 8
 %define qt3major 3
 %define qt4major 3
 %define cppmajor 0
@@ -16,8 +16,8 @@
 
 
 Name: poppler
-Version: 0.16.7
-Release: 4
+Version: 0.18.0
+Release: 1
 License: GPLv2+
 Group: Office
 URL: http://poppler.freedesktop.org
@@ -160,7 +160,7 @@ rm -rf %{buildroot}
 
 %files -n %{libname}
 %{_libdir}/libpoppler.so.%{major}*
-%_libdir/girepository-1.0/Poppler-0.16.typelib
+%_libdir/girepository-1.0/Poppler-0.18.typelib
 
 %files -n %{libnamedev}
 %{_libdir}/libpoppler.so
@@ -176,7 +176,7 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/poppler-splash.pc
 %{_libdir}/pkgconfig/poppler.pc
 %{_datadir}/gtk-doc/html/%name
-%_datadir/gir-1.0/Poppler-0.16.gir
+%_datadir/gir-1.0/Poppler-0.18.gir
 
 %files -n %{libnameglib}
 %{_libdir}/libpoppler-glib.so.%{glibmajor}*

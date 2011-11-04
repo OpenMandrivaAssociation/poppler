@@ -25,6 +25,7 @@ Summary: PDF rendering library
 Source:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
 ## upstreamable patches
 Patch1: poppler-0.12-CVE-2009-3608,3609.patch
+Patch2: poppler-0.18.1-pkgconfig_GLIB_REQUIRED.patch 
 BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires: qt4-devel
 BuildRequires: gtk2-devel
@@ -132,6 +133,7 @@ Development files for %{name}-cpp
 
 %setup -q
 %patch1 -p0 -b .cve-2009-3608,3609.patch
+%patch2 -p1 -b .pkgconfig_GLIB_REQUIRED
 
 #needed by patch2
 #autoreconf

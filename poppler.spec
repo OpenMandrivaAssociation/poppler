@@ -34,6 +34,7 @@ BuildRequires: jpeg-devel
 BuildRequires: openjpeg-devel
 BuildRequires: gobject-introspection-devel
 BuildRequires: gtk-doc
+BuildRequires: gettext-devel
 Obsoletes: 	xpdf-tools < 3.02-10mdv
 Provides:	xpdf-tools
 # Before 3.01pl2-2mdk xpdf-tools where in xpdf package

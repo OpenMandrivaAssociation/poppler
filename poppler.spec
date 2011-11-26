@@ -17,7 +17,7 @@
 
 Name: poppler
 Version: 0.18.1
-Release: 2
+Release: 3
 License: GPLv2+
 Group: Office
 URL: http://poppler.freedesktop.org
@@ -157,6 +157,8 @@ export PATH="%qt4dir/bin:${PATH}"
 rm -rf %{buildroot}
 %makeinstall_std
 %{__cp} -a config.h %{buildroot}%{_includedir}/poppler/
+
+rm -f %{buildroot}%{_libdir}/*.la
 
 %files
 %doc AUTHORS COPYING NEWS README

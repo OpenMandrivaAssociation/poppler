@@ -16,7 +16,7 @@
 
 
 Name: poppler
-Version: 0.18.3
+Version: 0.18.4
 Release: 1
 License: GPLv2+
 Group: Office
@@ -25,7 +25,7 @@ Summary: PDF rendering library
 Source:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
 ## upstreamable patches
 Patch1: poppler-0.12-CVE-2009-3608,3609.patch
-Patch2: poppler-0.18.3-linkage.patch
+Patch2: poppler-0.18.4-linkage.patch
 Patch3: poppler-0.18.1-glib.patch
 BuildRequires: qt4-devel
 BuildRequires: gtk2-devel

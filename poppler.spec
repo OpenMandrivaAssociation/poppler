@@ -1,7 +1,7 @@
-%define major 19
+%define major 25
 %define glibmajor 8
 %define qt3major 3
-%define qt4major 3
+%define qt4major 4
 %define cppmajor 0
 %define libname		%mklibname %{name} %major
 %define libnameglib	%mklibname %{name}-glib %glibmajor
@@ -16,8 +16,8 @@
 
 Summary: PDF rendering library
 Name: poppler
-Version: 0.18.4
-Release: 2
+Version: 0.20.0
+Release: 1
 License: GPLv2+
 Group: Office
 URL: http://poppler.freedesktop.org
@@ -25,7 +25,6 @@ Source0:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
 ## upstreamable patches
 Patch1: poppler-0.12-CVE-2009-3608,3609.patch
 Patch2: poppler-0.18.4-linkage.patch
-Patch3: poppler-0.18.1-glib.patch
 BuildRequires: qt4-devel
 BuildRequires: gtk2-devel
 BuildRequires: cairo-devel >= 1.8.4
@@ -139,9 +138,8 @@ Development files for %{name}-cpp
 
 %prep
 %setup -q
-%patch1 -p0 -b .cve-2009-3608,3609.patch
+%patch1 -p1 -b .cve-2009-3608,3609.patch
 %patch2 -p1 -b .linkage
-%patch3 -p1 -b .glib
 
 #needed by patch2
 autoreconf

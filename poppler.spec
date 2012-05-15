@@ -1,13 +1,15 @@
-%define major 25
-%define glibmajor 8
-%define qt3major 3
-%define qt4major 4
-%define cppmajor 0
+%define major		25
+%define glibmajor	8
+%define qt3major	3
+%define qt4major	4
+%define cppmajor	0
+%define girmajor	0.18
 %define libname		%mklibname %{name} %major
 %define libnameglib	%mklibname %{name}-glib %glibmajor
 %define libnameqt4	%mklibname %{name}-qt4- %qt4major
 %define libnameqt	%mklibname %{name}-qt %qt3major
 %define libnamecpp	%mklibname %{name}-cpp %cppmajor
+%define girname		%mklibname %{name}-gir %{girmajor}
 %define libnamedev	%mklibname -d %{name}
 %define libnameglibdev	%mklibname -d %{name}-glib
 %define libnameqtdev	%mklibname -d %{name}-qt
@@ -17,7 +19,7 @@
 Summary: PDF rendering library
 Name: poppler
 Version: 0.20.0
-Release: 1
+Release: 2
 License: GPLv2+
 Group: Office
 URL: http://poppler.freedesktop.org
@@ -25,20 +27,15 @@ Source0:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
 ## upstreamable patches
 Patch1: poppler-0.12-CVE-2009-3608,3609.patch
 Patch2: poppler-0.18.4-linkage.patch
-BuildRequires: qt4-devel
-BuildRequires: gtk2-devel
-BuildRequires: cairo-devel >= 1.8.4
-BuildRequires: jpeg-devel
-BuildRequires: openjpeg-devel
-BuildRequires: gobject-introspection-devel
-BuildRequires: gtk-doc
-BuildRequires: gettext-devel
-Obsoletes: 	xpdf-tools < 3.02-10mdv
-Provides:	xpdf-tools
-# Before 3.01pl2-2mdk xpdf-tools where in xpdf package
-Conflicts:	xpdf < 3.01pl2-2mdk
-Obsoletes:	pdftohtml
-Provides:	pdftohtml
+
+BuildRequires:	gtk-doc
+BuildRequires:	gettext-devel
+BuildRequires:	jpeg-devel
+BuildRequires:	pkgconfig(cairo) >= 1.8.4
+BuildRequires:	pkgconfig(gobject-introspection)
+BuildRequires:	pkgconfig(gtk-2.0)
+BuildRequires:	pkgconfig(libopenjpeg1)
+BuildRequires:	pkgconfig(QtCore)
 
 %description
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
@@ -52,11 +49,21 @@ Suggests:	poppler-data
 %description -n %{libname}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 
+%package -n %{girname}
+Summary: GObject Introspection interface library for %{name}
+Group: System/Libraries
+Conflicts:	%{_lib}poppler25 < 0.20.0-1
+Conflicts:	%{_lib}poppler19 < 0.18.4-3
+
+%description -n %{girname}
+GObject Introspection interface library for %{name}.
+
 %package -n %{libnamedev}
 Summary:	Development files for %{name}
 Group:		Development/C++
 Provides:	lib%{name}-devel = %{version}-%{release}
 Requires:	%{libname} = %{version}-%{release}
+Requires:	%{girname} = %{version}-%{release}
 Obsoletes:	%{libname}-devel
 
 %description -n %{libnamedev}
@@ -170,6 +177,8 @@ rm -f %{buildroot}%{_libdir}/*.la
 
 %files -n %{libname}
 %{_libdir}/libpoppler.so.%{major}*
+
+%files -n %{girname}
 %{_libdir}/girepository-1.0/Poppler-0.18.typelib
 
 %files -n %{libnamedev}

@@ -32,7 +32,7 @@ BuildRequires:	gtk-doc
 BuildRequires:	gettext-devel
 BuildRequires:	jpeg-devel
 BuildRequires:	pkgconfig(cairo) >= 1.8.4
-BuildRequires:	pkgconfig(gobject-introspection)
+BuildRequires:	pkgconfig(gobject-introspection-1.0)
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(libopenjpeg1)
 BuildRequires:	pkgconfig(QtCore)

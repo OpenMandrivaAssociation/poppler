@@ -1,4 +1,4 @@
-%define major		26
+%define major		28
 %define glibmajor	8
 %define qt3major	3
 %define qt4major	4
@@ -18,7 +18,7 @@
 
 Summary: PDF rendering library
 Name: poppler
-Version: 0.20.2
+Version: 0.20.4
 Release: 1
 License: GPLv2+
 Group: Office

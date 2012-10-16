@@ -1,32 +1,32 @@
-%define major		28
-%define glibmajor	8
-%define qt3major	3
-%define qt4major	4
-%define cppmajor	0
-%define girmajor	0.18
-%define libname		%mklibname %{name} %major
-%define libnameglib	%mklibname %{name}-glib %glibmajor
-%define libnameqt4	%mklibname %{name}-qt4- %qt4major
-%define libnameqt	%mklibname %{name}-qt %qt3major
-%define libnamecpp	%mklibname %{name}-cpp %cppmajor
-%define girname		%mklibname %{name}-gir %{girmajor}
-%define libnamedev	%mklibname -d %{name}
-%define libnameglibdev	%mklibname -d %{name}-glib
-%define libnameqtdev	%mklibname -d %{name}-qt
-%define libnameqt4dev	%mklibname -d %{name}-qt4
-%define libnamecppdev   %mklibname -d %{name}-cpp
+%define major 28
+%define glibmajor 8
+%define qt3major 3
+%define qt4major 4
+%define cppmajor 0
+%define girmajor 0.18
+%define libname %mklibname %{name} %major
+%define libnameglib %mklibname %{name}-glib %glibmajor
+%define libnameqt4 %mklibname %{name}-qt4- %qt4major
+%define libnameqt %mklibname %{name}-qt %qt3major
+%define libnamecpp %mklibname %{name}-cpp %cppmajor
+%define girname %mklibname %{name}-gir %{girmajor}
+%define libnamedev %mklibname -d %{name}
+%define libnameglibdev %mklibname -d %{name}-glib
+%define libnameqtdev %mklibname -d %{name}-qt
+%define libnameqt4dev %mklibname -d %{name}-qt4
+%define libnamecppdev %mklibname -d %{name}-cpp
 
-Summary: PDF rendering library
-Name: poppler
-Version: 0.20.5
-Release: 1
-License: GPLv2+
-Group: Office
-URL: http://poppler.freedesktop.org
+Summary:	PDF rendering library
+Name:		poppler
+Version:	0.20.5
+Release:	1
+License:	GPLv2+
+Group:		Publishing
+URL:		http://poppler.freedesktop.org
 Source0:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
 ## upstreamable patches
-Patch1: poppler-0.12-CVE-2009-3608,3609.patch
-Patch2: poppler-0.18.4-linkage.patch
+Patch1:		poppler-0.12-CVE-2009-3608,3609.patch
+Patch2:		poppler-0.18.4-linkage.patch
 
 BuildRequires:	gtk-doc
 BuildRequires:	gettext-devel
@@ -42,16 +42,20 @@ Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 
 %package -n %{libname}
 Summary:	PDF rendering library
-Group:          System/Libraries
+Group:		System/Libraries
 Conflicts:	%{_lib}poppler12
+Obsoletes:	%{mklibname poppler 25} < 0.20.1
+Obsoletes:	%{mklibname poppler 19} < 0.20.1
+Obsoletes:	%{mklibname poppler 18} < 0.20.1
+Obsoletes:	%{mklibname poppler 13} < 0.20.1
 Suggests:	poppler-data
 
 %description -n %{libname}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 
 %package -n %{girname}
-Summary: GObject Introspection interface library for %{name}
-Group: System/Libraries
+Summary:	GObject Introspection interface library for %{name}
+Group:		System/Libraries
 Conflicts:	%{_lib}poppler25 < 0.20.0-1
 Conflicts:	%{_lib}poppler19 < 0.18.4-3
 
@@ -64,14 +68,17 @@ Group:		Development/C++
 Provides:	lib%{name}-devel = %{version}-%{release}
 Requires:	%{libname} = %{version}-%{release}
 Requires:	%{girname} = %{version}-%{release}
-Obsoletes:	%{libname}-devel
+Obsoletes:	%{libname}-devel < %{version}-%{release}
+Obsoletes:	%{_lib}poppler-qt-devel < 0.16.8
 
 %description -n %{libnamedev}
-Development files for %{name}
+Development files for %{name}.
 
 %package -n %{libnameqt}
 Summary:	PDF rendering library - QT backend
-Group:          System/Libraries
+Group:		System/Libraries
+Obsoletes:	%{_lib}poppler-qt2 < 0.14.6
+Obsoletes:	%{_lib}poppler-qt3 < 0.16.8
 
 %description -n %{libnameqt}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
@@ -79,22 +86,22 @@ This is the QT backend version.
 
 %package -n %{libnamecpp}
 Summary:	PDF rendering library - C++ backend
-Group:          System/Libraries
+Group:		System/Libraries
 
 %description -n %{libnamecpp}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 This is the C++ backend version.
 
 %package  -n %{libnameqt4dev}
-Summary:    Development files for %{name}-qt4
-Group:      Development/C++
-Provides:   lib%{name}-qt4-devel = %{version}
-Requires:   %{libnameqt4} = %{version}
-Requires:   %libnamedev = %{version}
-Obsoletes:  %libnameqt4-devel
+Summary:	Development files for %{name}-qt4
+Group:		Development/C++
+Provides:	lib%{name}-qt4-devel = %{version}-%{release}
+Requires:	%{libnameqt4} = %{version}-%{release}
+Requires:	%{libnamedev} = %{version}-%{release}
+Obsoletes:	%{libnameqt4}-devel < %{version}-%{release}
 
 %description -n %{libnameqt4dev}
-Development files for %{name}-qt4
+Development files for %{name}-qt4.
 
 %package -n %{libnameqt4}
 Summary:	PDF rendering library - QT4 backend
@@ -107,7 +114,7 @@ This is the QT backend version.
 %package -n %{libnameglib}
 Summary:	PDF rendering library - glib binding
 Group:		System/Libraries
-Conflicts:	%libname < %{version}-%{release}
+Conflicts:	%{libname} < %{version}-%{release}
 
 %description -n %{libnameglib}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
@@ -115,33 +122,33 @@ Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 %package -n %{libnameglibdev}
 Summary:	Development files for %{name}'s glib binding
 Group:		Development/C++
-Provides:	lib%{name}-glib-devel = %{version}
-Requires:	%{libnameglib} = %{version}
-Requires:	%{libnamedev} = %{version}
-Conflicts:	%libnamedev < %{version}-%{release}
-Obsoletes:	%libnameglib-devel
+Provides:	lib%{name}-glib-devel = %{version}-%{release}
+Requires:	%{libnameglib} = %{version}-%{release}
+Requires:	%{libnamedev} = %{version}-%{release}
+Conflicts:	%{libnamedev} < %{version}-%{release}
+Obsoletes:	%{libnameglib}-devel < %{version}-%{release}
 
 %description -n %{libnameglibdev}
 Development files for %{name}'s glib binding.
 
 %package glib-demo
-Summary:	Tool demonstrating %libnameglib
+Summary:	Tool demonstrating %{libnameglib}
 Group:		Development/C++
-Requires:	%libnameglib = %{version}-%{release}
+Requires:	%{libnameglib} = %{version}-%{release}
 
 %description glib-demo
-Tool demonstrating %libnameglib by retrieving
-information about PDF files and displaying them
+Tool demonstrating %{libnameglib} by retrieving
+information about PDF files and displaying them.
 
 %package -n %{libnamecppdev}
 Summary:	Development files for %{name}-cpp
 Group:		Development/C++
-Provides:	lib%{name}-cpp-devel = %{version}
-Requires:	%{libnamecpp} = %{version}
-Requires:	%libnamedev = %{version}
+Provides:	lib%{name}-cpp-devel = %{version}-%{release}
+Requires:	%{libnamecpp} = %{version}-%{release}
+Requires:	%{libnamedev} = %{version}-%{release}
 
 %description -n %{libnamecppdev}
-Development files for %{name}-cpp
+Development files for %{name}-cpp.
 
 %prep
 %setup -q
@@ -156,6 +163,8 @@ export CPPFLAGS="-I%{_includedir}/freetype2"
 export PATH="%qt4dir/bin:${PATH}"
 
 %configure2_5x \
+	--disable-static \
+	--enable-libopenjpeg \
 	--enable-cairo-output \
 	--enable-poppler-qt4 \
 	--disable-poppler-qt \
@@ -173,7 +182,7 @@ rm -f %{buildroot}%{_libdir}/*.la
 %doc AUTHORS COPYING NEWS README
 %{_bindir}/*
 %exclude %{_bindir}/poppler-glib-demo
-%_mandir/man1/*
+%{_mandir}/man1/*
 
 %files -n %{libname}
 %{_libdir}/libpoppler.so.%{major}*
@@ -226,4 +235,3 @@ rm -f %{buildroot}%{_libdir}/*.la
 %attr(644,root,root) %{_libdir}/libpoppler-cpp.*a
 %{_libdir}/pkgconfig/poppler-cpp.pc
 %{_includedir}/poppler/cpp
-

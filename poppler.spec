@@ -192,7 +192,6 @@ rm -f %{buildroot}%{_libdir}/*.la
 
 %files -n %{libnamedev}
 %{_libdir}/libpoppler.so
-%attr(644,root,root) %{_libdir}/libpoppler.*a
 %dir %{_includedir}/poppler
 %{_includedir}/poppler/config.h
 %{_includedir}/poppler/[A-Z]*
@@ -232,6 +231,5 @@ rm -f %{buildroot}%{_libdir}/*.la
 
 %files -n %{libnamecppdev}
 %{_libdir}/libpoppler-cpp.so
-%attr(644,root,root) %{_libdir}/libpoppler-cpp.*a
 %{_libdir}/pkgconfig/poppler-cpp.pc
 %{_includedir}/poppler/cpp

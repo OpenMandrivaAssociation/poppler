@@ -212,7 +212,6 @@ rm -f %{buildroot}%{_libdir}/*.la
 %{_bindir}/poppler-glib-demo
 
 %files -n %{libnameglibdev}
-%attr(644,root,root) %{_libdir}/libpoppler-glib.*a
 %{_libdir}/libpoppler-glib.so
 %{_libdir}/pkgconfig/poppler-glib.pc
 %{_includedir}/poppler/glib
@@ -221,7 +220,6 @@ rm -f %{buildroot}%{_libdir}/*.la
 %{_includedir}/poppler/qt4
 %{_libdir}/pkgconfig/poppler-qt4.pc
 %{_libdir}/libpoppler-qt4.so
-%attr(644,root,root) %{_libdir}/libpoppler-qt4.*a
 
 %files -n %{libnameqt4}
 %{_libdir}/libpoppler-qt4.so.%{qt4major}*

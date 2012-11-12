@@ -1,0 +1,11 @@
+--- poppler-0.18.4/glib/Makefile.am.linkage	2012-02-05 15:37:19.000000000 +0100
++++ poppler-0.18.4/glib/Makefile.am	2012-02-17 09:50:49.230877186 +0100
+@@ -95,7 +95,7 @@ introspection_files = $(filter-out poppl
+ Poppler-0.18.gir: libpoppler-glib.la
+ Poppler_0_18_gir_INCLUDES = GObject-2.0 cairo-1.0
+ Poppler_0_18_gir_CFLAGS = $(INCLUDES) -I$(top_builddir)
+-Poppler_0_18_gir_LIBS = libpoppler-glib.la
++Poppler_0_18_gir_LIBS = libpoppler-glib.la gmodule-2.0
+ Poppler_0_18_gir_FILES = $(introspection_files)
+ Poppler_0_18_gir_SCANNERFLAGS = --c-include poppler.h
+ Poppler_0_18_gir_EXPORT_PACKAGES = poppler-glib

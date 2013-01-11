@@ -1,2 +1,4 @@
+removed_sources:
+  poppler-0.20.2.tar.gz: 0f745b593e764d27a0e21645e6febd6ad8ad2ab9
 sources:
-  "poppler-0.20.2.tar.gz": 0f745b593e764d27a0e21645e6febd6ad8ad2ab9
+  poppler-0.22.0.tar.gz: d9cfc390a5aa2aaf976318d9bf3642336f625981

@@ -1,4 +1,4 @@
-%define major		26
+%define major		34
 %define glibmajor	8
 %define qt3major	3
 %define qt4major	4
@@ -18,7 +18,7 @@
 
 Summary:	PDF rendering library
 Name:		poppler
-Version:	0.20.2
+Version:	0.22.0
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -27,6 +27,7 @@ Source0:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
 ## upstreamable patches
 Patch1:		poppler-0.12-CVE-2009-3608,3609.patch
 Patch2:		poppler-0.18.4-linkage.patch
+Patch3:		poppler-0.22.0-automake-1.13.patch
 
 BuildRequires:	gtk-doc
 BuildRequires:	gettext-devel
@@ -145,11 +146,14 @@ Development files for %{name}-cpp
 
 %prep
 %setup -q
-%patch1 -p1 -b .cve-2009-3608,3609.patch
-%patch2 -p1 -b .linkage
+%apply_patches
 
 #needed by patch2
-autoreconf
+libtoolize --force
+autoheader
+aclocal
+automake -a --add-missing
+autoconf
 
 %build
 export CPPFLAGS="-I%{_includedir}/freetype2"

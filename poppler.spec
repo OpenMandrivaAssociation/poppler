@@ -129,6 +129,7 @@ Development files for %{name}'s glib binding.
 Summary:	Tool demonstrating %{libnameglib}
 Group:		Development/C++
 Requires:	%{libnameglib} = %{version}-%{release}
+BuildRequires:	pkgconfig(gtk+-3.0) pkgconfig(gdk-pixbuf-2.0)
 
 %description glib-demo
 Tool demonstrating %{libnameglib} by retrieving

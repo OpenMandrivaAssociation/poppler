@@ -1,11 +1,13 @@
-%define major		37
+%define major		43
 %define glibmajor	8
 %define qt3major	3
 %define qt4major	4
+%define qt5major	1
 %define cppmajor	0
 %define girmajor	0.18
 %define libname		%mklibname %{name} %{major}
 %define libnameglib	%mklibname %{name}-glib %{glibmajor}
+%define libnameqt5	%mklibname %{name}-qt5- %{qt5major}
 %define libnameqt4	%mklibname %{name}-qt4- %{qt4major}
 %define libnameqt	%mklibname %{name}-qt %{qt3major}
 %define libnamecpp	%mklibname %{name}-cpp %{cppmajor}
@@ -14,16 +16,17 @@
 %define libnameglibdev	%mklibname -d %{name}-glib
 %define libnameqtdev	%mklibname -d %{name}-qt
 %define libnameqt4dev	%mklibname -d %{name}-qt4
+%define libnameqt5dev	%mklibname -d %{name}-qt5
 %define libnamecppdev	%mklibname -d %{name}-cpp
 
 Summary:	PDF rendering library
 Name:		poppler
-Version:	0.22.5
+Version:	0.24.1
 Release:	1
 License:	GPLv2+
 Group:		Office
 URL:		http://poppler.freedesktop.org
-Source0:	http://poppler.freedesktop.org/%{name}-%{version}.tar.gz
+Source0:	http://poppler.freedesktop.org/%{name}-%{version}.tar.xz
 ## upstreamable patches
 Patch1:		poppler-0.12-CVE-2009-3608,3609.patch
 Patch2:		poppler-0.18.4-linkage.patch
@@ -36,6 +39,12 @@ BuildRequires:	pkgconfig(gobject-introspection-1.0)
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(libopenjpeg1)
 BuildRequires:	pkgconfig(QtCore)
+BuildRequires:	pkgconfig(QtGui)
+BuildRequires:	pkgconfig(QtXml)
+BuildRequires:	pkgconfig(lcms2)
+BuildRequires:	pkgconfig(Qt5Core)
+BuildRequires:	pkgconfig(Qt5Gui)
+BuildRequires:	pkgconfig(Qt5Xml)
 
 %description
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
@@ -97,12 +106,30 @@ Obsoletes:	%{libnameqt4}-devel < 0.20.2
 Development files for %{name}-qt4
 
 %package -n %{libnameqt4}
-Summary:	PDF rendering library - QT4 backend
+Summary:	PDF rendering library - Qt4 backend
 Group:		System/Libraries
 
 %description -n %{libnameqt4}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
-This is the QT backend version.
+This is the Qt backend version.
+
+%package  -n %{libnameqt5dev}
+Summary:	Development files for %{name}-qt5
+Group:		Development/C++
+Provides:	lib%{name}-qt5-devel = %{version}
+Requires:	%{libnameqt5} = %{version}
+Requires:	%{libnamedev} = %{version}
+
+%description -n %{libnameqt5dev}
+Development files for %{name}-qt5
+
+%package -n %{libnameqt5}
+Summary:	PDF rendering library - QT4 backend
+Group:		System/Libraries
+
+%description -n %{libnameqt5}
+Poppler is a PDF rendering library based on the xpdf-3.0 code base.
+This is the Qt 5.x backend version.
 
 %package -n %{libnameglib}
 Summary:	PDF rendering library - glib binding
@@ -157,11 +184,12 @@ autoconf
 
 %build
 export CPPFLAGS="-I%{_includedir}/freetype2"
-export PATH="%qt4dir/bin:${PATH}"
+export PATH="%qt4dir/bin:%qt5dir/bin:${PATH}"
 
 %configure2_5x \
 	--enable-cairo-output \
 	--enable-poppler-qt4 \
+	--enable-poppler-qt5 \
 	--disable-poppler-qt \
 	--enable-xpdf-headers \
 	--enable-gtk-doc
@@ -185,7 +213,6 @@ cp -a config.h %{buildroot}%{_includedir}/poppler/
 
 %files -n %{libnamedev}
 %{_libdir}/libpoppler.so
-%attr(644,root,root) %{_libdir}/libpoppler.*a
 %dir %{_includedir}/poppler
 %{_includedir}/poppler/config.h
 %{_includedir}/poppler/[A-Z]*
@@ -206,7 +233,6 @@ cp -a config.h %{buildroot}%{_includedir}/poppler/
 %{_bindir}/poppler-glib-demo
 
 %files -n %{libnameglibdev}
-%attr(644,root,root) %{_libdir}/libpoppler-glib.*a
 %{_libdir}/libpoppler-glib.so
 %{_libdir}/pkgconfig/poppler-glib.pc
 %{_includedir}/poppler/glib
@@ -215,17 +241,23 @@ cp -a config.h %{buildroot}%{_includedir}/poppler/
 %{_includedir}/poppler/qt4
 %{_libdir}/pkgconfig/poppler-qt4.pc
 %{_libdir}/libpoppler-qt4.so
-%attr(644,root,root) %{_libdir}/libpoppler-qt4.*a
 
 %files -n %{libnameqt4}
 %{_libdir}/libpoppler-qt4.so.%{qt4major}*
+
+%files -n %{libnameqt5dev}
+%{_includedir}/poppler/qt5
+%{_libdir}/pkgconfig/poppler-qt5.pc
+%{_libdir}/libpoppler-qt5.so
+
+%files -n %{libnameqt5}
+%{_libdir}/libpoppler-qt5.so.%{qt5major}*
 
 %files -n %{libnamecpp}
 %{_libdir}/libpoppler-cpp.so.%{cppmajor}*
 
 %files -n %{libnamecppdev}
 %{_libdir}/libpoppler-cpp.so
-%attr(644,root,root) %{_libdir}/libpoppler-cpp.*a
 %{_libdir}/pkgconfig/poppler-cpp.pc
 %{_includedir}/poppler/cpp
 

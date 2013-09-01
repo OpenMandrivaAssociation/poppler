@@ -194,7 +194,8 @@ export PATH="%qt4dir/bin:%qt5dir/bin:${PATH}"
 	--enable-poppler-qt5 \
 	--disable-poppler-qt \
 	--enable-xpdf-headers \
-	--enable-gtk-doc
+	--enable-gtk-doc \
+	--disable-static
 %make
 
 %install

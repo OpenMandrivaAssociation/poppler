@@ -1,8 +1,2 @@
-removed_sources:
-  poppler-0.20.2.tar.gz: 0f745b593e764d27a0e21645e6febd6ad8ad2ab9
-  poppler-0.22.0.tar.gz: d9cfc390a5aa2aaf976318d9bf3642336f625981
-  poppler-0.22.4.tar.gz: 26586bcd41a01adca00bf5929e11c49419bd21fa
-  poppler-0.22.5.tar.gz: 9491bb33788d7f0ee67da572dc4798004f98323a
-  poppler-0.24.1.tar.xz: f805db83a4cf1c2169574a21b43582998bc03011
 sources:
-  poppler-0.24.2.tar.xz: a8a08cf3fb8b35c9b9718d0c9db9f3360e033a03
+  poppler-0.24.4.tar.xz: 7938c92c61b63331f2af463db0d10048bf0d4712

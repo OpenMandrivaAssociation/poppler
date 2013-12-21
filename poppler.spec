@@ -1,4 +1,4 @@
-%define major	43
+%define major	44
 %define glibmaj	8
 %define qt3maj	3
 %define qt4maj	4
@@ -21,8 +21,8 @@
 
 Summary:	PDF rendering library
 Name:		poppler
-Version:	0.24.2
-Release:	6
+Version:	0.24.4
+Release:	1
 License:	GPLv2+
 Group:		Office
 Url:		http://poppler.freedesktop.org
@@ -46,6 +46,7 @@ BuildRequires:	pkgconfig(Qt5Gui)
 BuildRequires:	pkgconfig(Qt5Xml)
 BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5Test)
+BuildRequires:	qtchooser
 
 %description
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
@@ -177,12 +178,14 @@ Development files for %{name}-cpp
 %prep
 %setup -q
 %apply_patches
+# Qt 5.2 changes "moc -v" output from "Qt 5.x" to "moc 5.x"
+sed -i -e 's,Qt 5,5,g' configure.ac
 #needed by patch2
 autoreconf -fi
 
 %build
 export CPPFLAGS="-I%{_includedir}/freetype2"
-export PATH="%qt4dir/bin:%qt5dir/bin:${PATH}"
+export PATH="%qt4dir/bin:%_libdir/qt5/bin:${PATH}"
 
 %configure2_5x \
 	--disable-static \
@@ -192,7 +195,7 @@ export PATH="%qt4dir/bin:%qt5dir/bin:${PATH}"
 	--disable-poppler-qt \
 	--enable-xpdf-headers \
 	--enable-gtk-doc
-%make
+%make MOCQT5=moc-qt5
 
 %install
 %makeinstall_std
@@ -259,4 +262,3 @@ cp -a config.h %{buildroot}%{_includedir}/poppler/
 %{_libdir}/libpoppler-cpp.so
 %{_libdir}/pkgconfig/poppler-cpp.pc
 %{_includedir}/poppler/cpp
-

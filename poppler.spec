@@ -40,6 +40,7 @@ Patch2:		poppler-0.18.4-linkage.patch
 BuildRequires:	gtk-doc
 %endif
 BuildRequires:	gettext-devel
+BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	jpeg-devel
 %if %{with cairo}
 BuildRequires:	pkgconfig(cairo) >= 1.8.4

@@ -2,6 +2,7 @@
 %bcond_with	qt5
 %bcond_with	cairo
 %bcond_with	gtk
+%bcond_with	doc
 
 %define major	44
 %define glibmaj	8
@@ -35,7 +36,9 @@ Source0:	http://poppler.freedesktop.org/%{name}-%{version}.tar.xz
 ## upstreamable patches
 Patch1:		poppler-0.12-CVE-2009-3608,3609.patch
 Patch2:		poppler-0.18.4-linkage.patch
+%if %{with doc}
 BuildRequires:	gtk-doc
+%endif
 BuildRequires:	gettext-devel
 BuildRequires:	jpeg-devel
 %if %{with cairo}
@@ -222,7 +225,10 @@ export PATH="%qt4dir/bin:%_libdir/qt5/bin:${PATH}"
 %endif
 	--disable-poppler-qt \
 	--enable-xpdf-headers \
+%if %{with doc}
 	--enable-gtk-doc
+%endif
+
 %make MOCQT5=moc-qt5
 
 %install
@@ -272,7 +278,9 @@ cp -a config.h %{buildroot}%{_includedir}/poppler/
 %{_libdir}/pkgconfig/poppler-glib.pc
 %{_includedir}/poppler/glib
 %{_datadir}/gir-1.0/Poppler-%{girmaj}.gir
+%if %{with doc}
 %{_datadir}/gtk-doc/html/%{name}
+%endif
 %endif
 
 %if %{with qt4}

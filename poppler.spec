@@ -1,3 +1,8 @@
+%bcond_with	qt4
+%bcond_with	qt5
+%bcond_with	cairo
+%bcond_with	gtk
+
 %define major	44
 %define glibmaj	8
 %define qt3maj	3
@@ -33,20 +38,30 @@ Patch2:		poppler-0.18.4-linkage.patch
 BuildRequires:	gtk-doc
 BuildRequires:	gettext-devel
 BuildRequires:	jpeg-devel
+%if %{with cairo}
 BuildRequires:	pkgconfig(cairo) >= 1.8.4
+%endif
+%if %{with gtk}
 BuildRequires:	pkgconfig(gobject-introspection-1.0)
 BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	pkgconfig(gdk-pixbuf-2.0)
+BuildRequires:	pkgconfig(gtk+-3.0)
+%endif
 BuildRequires:	pkgconfig(libopenjpeg1)
+%if %{with qt4}
 BuildRequires:	pkgconfig(QtCore)
 BuildRequires:	pkgconfig(QtGui)
 BuildRequires:	pkgconfig(QtXml)
+%endif
 BuildRequires:	pkgconfig(lcms2)
+%if %{with qt4}
 BuildRequires:	pkgconfig(Qt5Core)
 BuildRequires:	pkgconfig(Qt5Gui)
 BuildRequires:	pkgconfig(Qt5Xml)
 BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	qtchooser
+%endif
 
 %description
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
@@ -59,6 +74,7 @@ Suggests:	poppler-data
 %description -n %{libname}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 
+%if %{with gtk}
 %package -n %{girname}
 Summary:	GObject Introspection interface library for %{name}
 Group:		System/Libraries
@@ -67,6 +83,7 @@ Conflicts:	%{_lib}poppler19 < 0.18.4-3
 
 %description -n %{girname}
 GObject Introspection interface library for %{name}.
+%endif
 
 %package -n %{devname}
 Summary:	Development files for %{name}
@@ -78,14 +95,6 @@ Obsoletes:	%{libname}-devel < 0.20.2
 %description -n %{devname}
 Development files for %{name}
 
-%package -n %{libqt}
-Summary:	PDF rendering library - QT backend
-Group:		System/Libraries
-
-%description -n %{libqt}
-Poppler is a PDF rendering library based on the xpdf-3.0 code base.
-This is the QT backend version.
-
 %package -n %{libcpp}
 Summary:	PDF rendering library - C++ backend
 Group:		System/Libraries
@@ -93,6 +102,16 @@ Group:		System/Libraries
 %description -n %{libcpp}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 This is the C++ backend version.
+
+
+%if %{with qt4}
+%package -n %{libqt}
+Summary:	PDF rendering library - QT backend
+Group:		System/Libraries
+
+%description -n %{libqt}
+Poppler is a PDF rendering library based on the xpdf-3.0 code base.
+This is the QT backend version.
 
 %package  -n %{qt4dev}
 Summary:	Development files for %{name}-qt4
@@ -113,7 +132,9 @@ Group:		System/Libraries
 %description -n %{libqt4}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 This is the Qt backend version.
+%endif
 
+%if %{with qt5}
 %package  -n %{qt5dev}
 Summary:	Development files for %{name}-qt5
 Group:		Development/C++
@@ -132,7 +153,9 @@ Group:		System/Libraries
 %description -n %{libqt5}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 This is the Qt 5.x backend version.
+%endif
 
+%if %{with gtk}
 %package -n %{libglib}
 Summary:	PDF rendering library - glib binding
 Group:		System/Libraries
@@ -158,12 +181,11 @@ Development files for %{name}'s glib binding.
 Summary:	Tool demonstrating %{libglib}
 Group:		Development/C++
 Requires:	%{libglib} = %{version}-%{release}
-BuildRequires:	pkgconfig(gdk-pixbuf-2.0)
-BuildRequires:	pkgconfig(gtk+-3.0)
 
 %description glib-demo
 Tool demonstrating %{libglib} by retrieving
 information about PDF files and displaying them
+%endif
 
 %package -n %{cppdev}
 Summary:	Development files for %{name}-cpp
@@ -189,9 +211,15 @@ export PATH="%qt4dir/bin:%_libdir/qt5/bin:${PATH}"
 
 %configure2_5x \
 	--disable-static \
+%if %{with cairo}
 	--enable-cairo-output \
+%endif
+%if %{with qt4}
 	--enable-poppler-qt4 \
+%endif
+%if %{with qt4}
 	--enable-poppler-qt5 \
+%endif
 	--disable-poppler-qt \
 	--enable-xpdf-headers \
 	--enable-gtk-doc
@@ -204,14 +232,18 @@ cp -a config.h %{buildroot}%{_includedir}/poppler/
 %files
 %doc AUTHORS COPYING NEWS README
 %{_bindir}/*
+%if %{with gtk}
 %exclude %{_bindir}/poppler-glib-demo
+%endif
 %{_mandir}/man1/*
 
 %files -n %{libname}
 %{_libdir}/libpoppler.so.%{major}*
 
+%if %{with gtk}
 %files -n %{girname}
 %{_libdir}/girepository-1.0/Poppler-%{girmaj}.typelib
+%endif
 
 %files -n %{devname}
 %{_libdir}/libpoppler.so
@@ -222,11 +254,13 @@ cp -a config.h %{buildroot}%{_includedir}/poppler/
 %{_includedir}/poppler/goo
 %{_includedir}/poppler/splash
 %{_includedir}/poppler/poppler-config.h
+%if %{with cairo}
 %{_libdir}/pkgconfig/poppler-cairo.pc
+%endif
 %{_libdir}/pkgconfig/poppler-splash.pc
 %{_libdir}/pkgconfig/poppler.pc
-%{_datadir}/gtk-doc/html/%{name}
 
+%if %{with gtk}
 %files -n %{libglib}
 %{_libdir}/libpoppler-glib.so.%{glibmaj}*
 
@@ -238,7 +272,10 @@ cp -a config.h %{buildroot}%{_includedir}/poppler/
 %{_libdir}/pkgconfig/poppler-glib.pc
 %{_includedir}/poppler/glib
 %{_datadir}/gir-1.0/Poppler-%{girmaj}.gir
+%{_datadir}/gtk-doc/html/%{name}
+%endif
 
+%if %{with qt4}
 %files -n %{qt4dev}
 %{_includedir}/poppler/qt4
 %{_libdir}/pkgconfig/poppler-qt4.pc
@@ -246,7 +283,9 @@ cp -a config.h %{buildroot}%{_includedir}/poppler/
 
 %files -n %{libqt4}
 %{_libdir}/libpoppler-qt4.so.%{qt4maj}*
+%endif
 
+%if %{with qt5}
 %files -n %{qt5dev}
 %{_includedir}/poppler/qt5
 %{_libdir}/pkgconfig/poppler-qt5.pc
@@ -254,6 +293,7 @@ cp -a config.h %{buildroot}%{_includedir}/poppler/
 
 %files -n %{libqt5}
 %{_libdir}/libpoppler-qt5.so.%{qt5maj}*
+%endif
 
 %files -n %{libcpp}
 %{_libdir}/libpoppler-cpp.so.%{cppmaj}*

@@ -1,2 +1,4 @@
-sources:
+removed_sources:
   poppler-0.24.4.tar.xz: 7938c92c61b63331f2af463db0d10048bf0d4712
+sources:
+  poppler-0.26.1.tar.xz: 69911065030200bb7233a1f051b2e4695bbc386c

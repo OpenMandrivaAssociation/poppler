@@ -4,7 +4,7 @@
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major	44
+%define major	46
 %define glibmaj	8
 %define qt3maj	3
 %define qt4maj	4
@@ -27,7 +27,7 @@
 
 Summary:	PDF rendering library
 Name:		poppler
-Version:	0.24.4
+Version:	0.26.1
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -215,6 +215,7 @@ export PATH="%qt4dir/bin:%_libdir/qt5/bin:${PATH}"
 
 %configure2_5x \
 	--disable-static \
+	--enable-compile-warnings=no \
 %if %{with cairo}
 	--enable-cairo-output \
 %endif

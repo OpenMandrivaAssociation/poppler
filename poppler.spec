@@ -1,5 +1,5 @@
-%bcond_without	qt4
-%bcond_without	qt5
+%bcond_with	qt4
+%bcond_with	qt5
 %bcond_without	cairo
 %bcond_without	gtk
 %bcond_without	doc

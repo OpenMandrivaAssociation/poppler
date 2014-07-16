@@ -1,5 +1,5 @@
-%bcond_with	qt4
-%bcond_with	qt5
+%bcond_without	qt4
+%bcond_without	qt5
 %bcond_without	cairo
 %bcond_without	gtk
 %bcond_without	doc
@@ -27,8 +27,8 @@
 
 Summary:	PDF rendering library
 Name:		poppler
-Version:	0.26.1
-Release:	3
+Version:	0.26.2
+Release:	1
 License:	GPLv2+
 Group:		Office
 Url:		http://poppler.freedesktop.org

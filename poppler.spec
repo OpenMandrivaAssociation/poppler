@@ -4,7 +4,7 @@
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major	46
+%define major	47
 %define glibmaj	8
 %define qt3maj	3
 %define qt4maj	4
@@ -27,7 +27,7 @@
 
 Summary:	PDF rendering library
 Name:		poppler
-Version:	0.26.5
+Version:	0.28.1
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -35,7 +35,6 @@ Url:		http://poppler.freedesktop.org
 Source0:	http://poppler.freedesktop.org/%{name}-%{version}.tar.xz
 ## upstreamable patches
 Patch1:		poppler-0.12-CVE-2009-3608,3609.patch
-Patch2:		poppler-0.18.4-linkage.patch
 %if %{with doc}
 BuildRequires:	gtk-doc
 %endif
@@ -206,7 +205,6 @@ Development files for %{name}-cpp
 %apply_patches
 # Qt 5.2 changes "moc -v" output from "Qt 5.x" to "moc 5.x"
 sed -i -e 's,Qt 5,5,g' configure.ac
-#needed by patch2
 autoreconf -fi
 
 %build

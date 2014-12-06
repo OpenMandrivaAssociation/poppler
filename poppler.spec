@@ -4,7 +4,7 @@
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major	47
+%define major	48
 %define glibmaj	8
 %define qt3maj	3
 %define qt4maj	4
@@ -27,7 +27,7 @@
 
 Summary:	PDF rendering library
 Name:		poppler
-Version:	0.28.1
+Version:	0.29.0
 Release:	1
 License:	GPLv2+
 Group:		Office

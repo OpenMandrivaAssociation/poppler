@@ -28,7 +28,7 @@
 Summary:	PDF rendering library
 Name:		poppler
 Version:	0.29.0
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Office
 Url:		http://poppler.freedesktop.org
@@ -123,7 +123,6 @@ Provides:	%{name}-qt4-devel = %{version}-%{release}
 Requires:	%{libqt4} = %{version}-%{release}
 Requires:	%{devname} = %{version}-%{release}
 Obsoletes:	%{libqt4}-devel < 0.20.2
-Obsoletes:	%{_lib}poppler-qt4-4 < 0.24.2
 
 %description -n %{qt4dev}
 Development files for %{name}-qt4
@@ -131,6 +130,7 @@ Development files for %{name}-qt4
 %package -n %{libqt4}
 Summary:	PDF rendering library - Qt4 backend
 Group:		System/Libraries
+Obsoletes:	%{_lib}poppler-qt4-4 < 0.24.3
 
 %description -n %{libqt4}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
@@ -144,7 +144,7 @@ Group:		Development/C++
 Provides:	%{name}-qt5-devel = %{version}
 Requires:	%{libqt5} = %{version}-%{release}
 Requires:	%{devname} = %{version}-%{release}
-Obsoletes:	%{_lib}poppler-qt5-1 < 0.24.2
+Obsoletes:	%{_lib}poppler-qt5-1 < 0.24.3
 
 %description -n %{qt5dev}
 Development files for %{name}-qt5
@@ -211,7 +211,7 @@ autoreconf -fi
 export CPPFLAGS="-I%{_includedir}/freetype2"
 export PATH="%qt4dir/bin:%_libdir/qt5/bin:${PATH}"
 
-%configure2_5x \
+%configure \
 	--disable-static \
 	--enable-compile-warnings=no \
 %if %{with cairo}

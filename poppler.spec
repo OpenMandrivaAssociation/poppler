@@ -4,13 +4,13 @@
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major	48
-%define glibmaj	8
-%define qt3maj	3
-%define qt4maj	4
-%define qt5maj	1
-%define cppmaj	0
-%define girmaj	0.18
+%define major 49
+%define glibmaj 8
+%define qt3maj 3
+%define qt4maj 4
+%define qt5maj 1
+%define cppmaj 0
+%define girmaj 0.18
 %define libname	%mklibname %{name} %{major}
 %define libglib	%mklibname %{name}-glib %{glibmaj}
 %define libqt5	%mklibname %{name}-qt5_ %{qt5maj}

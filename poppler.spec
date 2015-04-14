@@ -72,7 +72,7 @@ Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 %package -n %{libname}
 Summary:	PDF rendering library
 Group:		System/Libraries
-Suggests:	poppler-data
+Suggests:	poppler-data >= 0.4.7
 
 %description -n %{libname}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.

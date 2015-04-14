@@ -4,7 +4,7 @@
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major 49
+%define major 51
 %define glibmaj 8
 %define qt3maj 3
 %define qt4maj 4

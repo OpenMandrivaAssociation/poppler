@@ -27,7 +27,7 @@
 
 Summary:	PDF rendering library
 Name:		poppler
-Version:	0.30.0
+Version:	0.32.0
 Release:	1
 License:	GPLv2+
 Group:		Office

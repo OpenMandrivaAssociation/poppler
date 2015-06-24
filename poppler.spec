@@ -57,7 +57,7 @@ BuildRequires:	pkgconfig(QtGui)
 BuildRequires:	pkgconfig(QtXml)
 %endif
 BuildRequires:	pkgconfig(lcms2)
-%if %{with qt4}
+%if %{with qt5}
 BuildRequires:	pkgconfig(Qt5Core)
 BuildRequires:	pkgconfig(Qt5Gui)
 BuildRequires:	pkgconfig(Qt5Xml)

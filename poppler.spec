@@ -1,8 +1,8 @@
-%bcond_without	qt4
+%bcond_with	qt4
 %bcond_with	qt5
-%bcond_without	cairo
-%bcond_without	gtk
-%bcond_without	doc
+%bcond_with	cairo
+%bcond_with	gtk
+%bcond_with	doc
 
 %define major 52
 %define glibmaj 8

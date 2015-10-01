@@ -278,9 +278,7 @@ cp -a config.h %{buildroot}%{_includedir}/poppler/
 %{_libdir}/pkgconfig/poppler-glib.pc
 %{_includedir}/poppler/glib
 %{_datadir}/gir-1.0/Poppler-%{girmaj}.gir
-%if %{with doc}
-%{_datadir}/gtk-doc/html/%{name}
-%endif
+%{_datadir}/gtk-doc/html/*
 %endif
 
 %if %{with qt4}

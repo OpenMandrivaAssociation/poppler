@@ -4,7 +4,7 @@
 %bcond_without	gtk
 %bcond_with	doc
 
-%define major 62
+%define major 65
 %define glibmaj 8
 %define qt3maj 3
 %define qt4maj 4
@@ -27,7 +27,7 @@
 
 Summary:	PDF rendering library
 Name:		poppler
-Version:	0.45.0
+Version:	0.49.0
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -229,7 +229,7 @@ export PATH="%qt4dir/bin:%_libdir/qt5/bin:${PATH}"
 	--enable-gtk-doc
 %endif
 
-%make MOCQT5=moc-qt5
+%make MOCQT5=moc-qt5 CXXFLAGS+="-std=gnu++14"
 
 %install
 %makeinstall_std

@@ -4,7 +4,7 @@
 %bcond_without	gtk
 %bcond_with	doc
 
-%define major 65
+%define major 66
 %define glibmaj 8
 %define qt3maj 3
 %define qt4maj 4
@@ -27,8 +27,8 @@
 
 Summary:	PDF rendering library
 Name:		poppler
-Version:	0.49.0
-Release:	2
+Version:	0.50.0
+Release:	1
 License:	GPLv2+
 Group:		Office
 Url:		http://poppler.freedesktop.org
@@ -50,7 +50,7 @@ BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(gdk-pixbuf-2.0)
 BuildRequires:	pkgconfig(gtk+-3.0)
 %endif
-BuildRequires:	pkgconfig(libopenjp2)
+BuildRequires:	pkgconfig(libopenjp2) >= 2.1.2
 %if %{with qt4}
 BuildRequires:	pkgconfig(QtCore)
 BuildRequires:	pkgconfig(QtGui)

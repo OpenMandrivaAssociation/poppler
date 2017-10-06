@@ -2,7 +2,7 @@
 %bcond_without	qt5
 %bcond_without	cairo
 %bcond_without	gtk
-%bcond_with	doc
+%bcond_without	doc
 
 %define major 70
 %define glibmaj 8
@@ -27,7 +27,7 @@
 
 Summary:	PDF rendering library
 Name:		poppler
-Version:	0.59.0
+Version:	0.60.0
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -37,15 +37,18 @@ Source0:	http://poppler.freedesktop.org/%{name}-%{version}.tar.xz
 Patch1:		poppler-0.12-CVE-2009-3608,3609.patch
 %if %{with doc}
 BuildRequires:	gtk-doc
+BuildRequires:	python2
 %endif
 BuildRequires:	gettext-devel
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	jpeg-devel
+BuildRequires:	cmake
+BuildRequires:	ninja
 %if %{with cairo}
 BuildRequires:	pkgconfig(cairo) >= 1.8.4
 %endif
 %if %{with gtk}
-BuildRequires:	pkgconfig(gobject-introspection-1.0)
+BuildRequires:	pkgconfig(gobject-introspection-1.0) >= 1.54.1
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(gdk-pixbuf-2.0)
 BuildRequires:	pkgconfig(gtk+-3.0)
@@ -203,37 +206,45 @@ Development files for %{name}-cpp
 %prep
 %setup -q
 %apply_patches
-# Qt 5.2 changes "moc -v" output from "Qt 5.x" to "moc 5.x"
-sed -i -e 's,Qt 5,5,g' configure.ac
-autoreconf -fi
 
 %build
 export CPPFLAGS="-I%{_includedir}/freetype2"
 export PATH="%qt4dir/bin:%_libdir/qt5/bin:${PATH}"
 
-%configure \
-	--disable-static \
-	--enable-compile-warnings=no \
-%if %{with cairo}
-	--enable-cairo-output \
-%endif
-%if %{with qt4}
-	--enable-poppler-qt4 \
-%endif
-%if %{with qt4}
-	--enable-poppler-qt5 \
-%endif
-	--disable-poppler-qt \
-	--enable-xpdf-headers \
 %if %{with doc}
-	--enable-gtk-doc
+sed -i -e 's,env python,env python2,g' make-glib-api-docs
 %endif
 
-%make MOCQT5=moc-qt5 CXXFLAGS+="-std=gnu++14"
+sed -i -e '/CXX_STANDARD/iadd_definitions(-fno-lto)' CMakeLists.txt
+
+%cmake \
+	-DENABLE_XPDF_HEADERS:BOOL=ON \
+	-DQT_QMAKE_EXECUTABLE=%{_libdir}/qt5/bin/qmake \
+	-DQT_QMAKE_EXECUTABLE2=%{_prefix}/lib/qt4/bin/qmake \
+%if %{with cairo}
+	-DWITH_Cairo:BOOL=ON \
+%endif
+%if %{with qt4}
+	-DWITH_Qt4:BOOL=ON \
+%endif
+%if %{with doc}
+	-DENABLE_GTK_DOC:BOOL=ON \
+%endif
+	-DSPLASH_CMYK:BOOL=ON \
+	-DENABLE_CMS=lcms2 \
+	-DENABLE_DCTDECODER=libjpeg \
+	-DENABLE_LIBOPENJPEG=openjpeg2 \
+	-G Ninja
+
+export LD_LIBRARY_PATH=`pwd`
+%ninja
 
 %install
-%makeinstall_std
-cp -a config.h %{buildroot}%{_includedir}/poppler/
+%ninja_install -C build
+cp -a build/config.h %{buildroot}%{_includedir}/poppler/
+%if %{with gtk}
+cp build/glib/demo/poppler-glib-demo %{buildroot}%{_bindir}/
+%endif
 
 %files
 %doc AUTHORS COPYING NEWS README
@@ -278,7 +289,9 @@ cp -a config.h %{buildroot}%{_includedir}/poppler/
 %{_libdir}/pkgconfig/poppler-glib.pc
 %{_includedir}/poppler/glib
 %{_datadir}/gir-1.0/Poppler-%{girmaj}.gir
+%if %{with doc}
 %{_datadir}/gtk-doc/html/*
+%endif
 %endif
 
 %if %{with qt4}

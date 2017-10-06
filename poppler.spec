@@ -67,6 +67,7 @@ BuildRequires:	pkgconfig(Qt5Xml)
 BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	qtchooser
+BuildRequires:	qmake5
 %endif
 
 %description

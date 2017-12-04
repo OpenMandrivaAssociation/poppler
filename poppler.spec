@@ -1,33 +1,29 @@
-%bcond_without	qt4
 %bcond_without	qt5
 %bcond_without	cairo
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major 72
+%define major 73
 %define glibmaj 8
 %define qt3maj 3
-%define qt4maj 4
 %define qt5maj 1
 %define cppmaj 0
 %define girmaj 0.18
 %define libname	%mklibname %{name} %{major}
 %define libglib	%mklibname %{name}-glib %{glibmaj}
 %define libqt5	%mklibname %{name}-qt5_ %{qt5maj}
-%define libqt4	%mklibname %{name}-qt4_ %{qt4maj}
 %define libqt	%mklibname %{name}-qt %{qt3maj}
 %define libcpp	%mklibname %{name}-cpp %{cppmaj}
 %define girname	%mklibname %{name}-gir %{girmaj}
 %define devname	%mklibname -d %{name}
 %define glibdev	%mklibname -d %{name}-glib
 %define qtdev	%mklibname -d %{name}-qt
-%define qt4dev	%mklibname -d %{name}-qt4
 %define qt5dev	%mklibname -d %{name}-qt5
 %define cppdev	%mklibname -d %{name}-cpp
 
 Summary:	PDF rendering library
 Name:		poppler
-Version:	0.61.1
+Version:	0.62.0
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -54,11 +50,6 @@ BuildRequires:	pkgconfig(gdk-pixbuf-2.0)
 BuildRequires:	pkgconfig(gtk+-3.0)
 %endif
 BuildRequires:	pkgconfig(libopenjp2) >= 2.1.2
-%if %{with qt4}
-BuildRequires:	pkgconfig(QtCore)
-BuildRequires:	pkgconfig(QtGui)
-BuildRequires:	pkgconfig(QtXml)
-%endif
 BuildRequires:	pkgconfig(lcms2)
 %if %{with qt5}
 BuildRequires:	pkgconfig(Qt5Core)
@@ -110,36 +101,6 @@ Group:		System/Libraries
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 This is the C++ backend version.
 
-
-%if %{with qt4}
-%package -n %{libqt}
-Summary:	PDF rendering library - QT backend
-Group:		System/Libraries
-
-%description -n %{libqt}
-Poppler is a PDF rendering library based on the xpdf-3.0 code base.
-This is the QT backend version.
-
-%package  -n %{qt4dev}
-Summary:	Development files for %{name}-qt4
-Group:		Development/C++
-Provides:	%{name}-qt4-devel = %{version}-%{release}
-Requires:	%{libqt4} = %{version}-%{release}
-Requires:	%{devname} = %{version}-%{release}
-Obsoletes:	%{libqt4}-devel < 0.20.2
-
-%description -n %{qt4dev}
-Development files for %{name}-qt4
-
-%package -n %{libqt4}
-Summary:	PDF rendering library - Qt4 backend
-Group:		System/Libraries
-Obsoletes:	%{_lib}poppler-qt4-4 < 0.24.3
-
-%description -n %{libqt4}
-Poppler is a PDF rendering library based on the xpdf-3.0 code base.
-This is the Qt backend version.
-%endif
 
 %if %{with qt5}
 %package  -n %{qt5dev}
@@ -210,7 +171,7 @@ Development files for %{name}-cpp
 
 %build
 export CPPFLAGS="-I%{_includedir}/freetype2"
-export PATH="%qt4dir/bin:%_libdir/qt5/bin:${PATH}"
+export PATH="%_libdir/qt5/bin:${PATH}"
 
 %if %{with doc}
 sed -i -e 's,env python,env python2,g' make-glib-api-docs
@@ -221,12 +182,8 @@ sed -i -e '/CXX_STANDARD/iadd_definitions(-fno-lto)' CMakeLists.txt
 %cmake \
 	-DENABLE_XPDF_HEADERS:BOOL=ON \
 	-DQT_QMAKE_EXECUTABLE=%{_libdir}/qt5/bin/qmake \
-	-DQT_QMAKE_EXECUTABLE2=%{_prefix}/lib/qt4/bin/qmake \
 %if %{with cairo}
 	-DWITH_Cairo:BOOL=ON \
-%endif
-%if %{with qt4}
-	-DWITH_Qt4:BOOL=ON \
 %endif
 %if %{with doc}
 	-DENABLE_GTK_DOC:BOOL=ON \
@@ -293,16 +250,6 @@ cp build/glib/demo/poppler-glib-demo %{buildroot}%{_bindir}/
 %if %{with doc}
 %{_datadir}/gtk-doc/html/*
 %endif
-%endif
-
-%if %{with qt4}
-%files -n %{qt4dev}
-%{_includedir}/poppler/qt4
-%{_libdir}/pkgconfig/poppler-qt4.pc
-%{_libdir}/libpoppler-qt4.so
-
-%files -n %{libqt4}
-%{_libdir}/libpoppler-qt4.so.%{qt4maj}*
 %endif
 
 %if %{with qt5}

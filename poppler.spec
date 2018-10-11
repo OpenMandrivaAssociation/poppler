@@ -24,7 +24,7 @@
 Summary:	PDF rendering library
 Name:		poppler
 Version:	0.69.0
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Office
 Url:		http://poppler.freedesktop.org
@@ -40,6 +40,9 @@ BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	jpeg-devel
 BuildRequires:	cmake
 BuildRequires:	ninja
+BuildRequires:	pkgconfig(libcurl)
+BuildRequires:	pkgconfig(nss)
+BuildRequires:	pkgconfig(libtiff-4)
 %if %{with cairo}
 BuildRequires:	pkgconfig(cairo) >= 1.8.4
 %endif
@@ -166,8 +169,7 @@ Requires:	%{devname} = %{version}-%{release}
 Development files for %{name}-cpp
 
 %prep
-%setup -q
-%apply_patches
+%autosetup -p1
 
 %build
 export CPPFLAGS="-I%{_includedir}/freetype2"
@@ -194,7 +196,7 @@ sed -i -e '/CXX_STANDARD/iadd_definitions(-fno-lto)' CMakeLists.txt
 	-DENABLE_LIBOPENJPEG=openjpeg2 \
 	-G Ninja
 
-export LD_LIBRARY_PATH=`pwd`
+export LD_LIBRARY_PATH=$(pwd)
 %ninja
 
 %install

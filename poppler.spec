@@ -3,7 +3,7 @@
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major 83
+%define major 85
 %define glibmaj 8
 %define qt3maj 3
 %define qt5maj 1
@@ -27,14 +27,12 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	0.72.0
+Version:	0.74.0
 Release:	1
 License:	GPLv2+
 Group:		Office
 Url:		http://poppler.freedesktop.org
 Source0:	http://poppler.freedesktop.org/%{name}-%{version}.tar.xz
-## upstreamable patches
-Patch1:		poppler-0.12-CVE-2009-3608,3609.patch
 %if %{with doc}
 BuildRequires:	gtk-doc
 BuildRequires:	python2
@@ -187,6 +185,7 @@ sed -i -e '/CXX_STANDARD/iadd_definitions(-fno-lto)' CMakeLists.txt
 
 %cmake \
 	-DENABLE_XPDF_HEADERS:BOOL=ON \
+	-DENABLE_UNSTABLE_API_ABI_HEADERS:BOOL=ON \
 	-DQT_QMAKE_EXECUTABLE=%{_libdir}/qt5/bin/qmake \
 %if %{with cairo}
 	-DWITH_Cairo:BOOL=ON \

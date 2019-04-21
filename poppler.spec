@@ -3,7 +3,7 @@
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major 86
+%define major 87
 %define glibmaj 8
 %define qt3maj 3
 %define qt5maj 1
@@ -27,12 +27,13 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	0.75.0
+Version:	0.76.0
 Release:	1
 License:	GPLv2+
 Group:		Office
 Url:		http://poppler.freedesktop.org
 Source0:	http://poppler.freedesktop.org/%{name}-%{version}.tar.xz
+Patch0:		poppler-0.76.0-compile.patch
 %if %{with doc}
 BuildRequires:	gtk-doc
 BuildRequires:	python2

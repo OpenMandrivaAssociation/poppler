@@ -195,6 +195,9 @@ sed -i -e '/CXX_STANDARD/iadd_definitions(-fno-lto)' CMakeLists.txt
 %if %{with doc}
 	-DENABLE_GTK_DOC:BOOL=ON \
 %endif
+%if !%{with gtk}
+	-DENABLE_GLIB:BOOL=OFF \
+%endif
 	-DSPLASH_CMYK:BOOL=ON \
 	-DENABLE_CMS=lcms2 \
 	-DENABLE_DCTDECODER=libjpeg \

@@ -27,7 +27,7 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	0.78.0
+Version:	0.79.0
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -217,7 +217,7 @@ cp build/glib/demo/poppler-glib-demo %{buildroot}%{_bindir}/
 %endif
 
 %files
-%doc AUTHORS COPYING NEWS README
+%doc AUTHORS COPYING NEWS
 %{_bindir}/*
 %if %{with gtk}
 %exclude %{_bindir}/poppler-glib-demo

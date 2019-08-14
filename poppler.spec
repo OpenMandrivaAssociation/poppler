@@ -1,3 +1,5 @@
+%global optflags %{optflags} -O3
+
 %bcond_without	qt5
 %bcond_without	cairo
 %bcond_without	gtk
@@ -28,7 +30,7 @@ Name:		poppler
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
 Version:	0.79.0
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Office
 Url:		http://poppler.freedesktop.org

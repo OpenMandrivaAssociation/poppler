@@ -5,7 +5,7 @@
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major 91
+%define major 93
 %define glibmaj 8
 %define qt3maj 3
 %define qt5maj 1
@@ -29,7 +29,7 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	0.81.0
+Version:	0.83.0
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -37,7 +37,7 @@ Url:		http://poppler.freedesktop.org
 Source0:	http://poppler.freedesktop.org/%{name}-%{version}.tar.xz
 %if %{with doc}
 BuildRequires:	gtk-doc
-BuildRequires:	python2
+BuildRequires:	python
 %endif
 BuildRequires:	gettext-devel
 BuildRequires:	pkgconfig(fontconfig)
@@ -182,7 +182,7 @@ export CPPFLAGS="-I%{_includedir}/freetype2"
 export PATH="%_libdir/qt5/bin:${PATH}"
 
 %if %{with doc}
-sed -i -e 's,env python,env python2,g' make-glib-api-docs
+sed -i -e 's,env python3,env python,g' make-glib-api-docs
 %endif
 
 sed -i -e '/CXX_STANDARD/iadd_definitions(-fno-lto)' CMakeLists.txt

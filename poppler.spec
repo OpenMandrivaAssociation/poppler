@@ -5,7 +5,7 @@
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major 96
+%define major 97
 %define glibmaj 8
 %define qt3maj 3
 %define qt5maj 1
@@ -29,7 +29,7 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	0.86.0
+Version:	0.86.1
 Release:	1
 License:	GPLv2+
 Group:		Office

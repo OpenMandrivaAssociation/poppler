@@ -1,3 +1,8 @@
+# cairo uses poppler, gtk-3.0 uses cairo, wine uses gtk-3.0
+%ifarch %{x86_64}
+%bcond_without compat32
+%endif
+
 %global optflags %{optflags} -O3
 
 %bcond_without	qt5
@@ -23,6 +28,11 @@
 %define qt5dev	%mklibname -d %{name}-qt5
 %define cppdev	%mklibname -d %{name}-cpp
 
+%define lib32name	%mklib32name %{name} %{major}
+%define lib32glib	%mklib32name %{name}-glib %{glibmaj}
+%define dev32name	%mklib32name -d %{name}
+%define glib32dev	%mklib32name -d %{name}-glib
+
 Summary:	PDF rendering library
 Name:		poppler
 # (tpg) BIG FAT WARNING !!!
@@ -30,7 +40,7 @@ Name:		poppler
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
 Version:	0.89.0
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Office
 Url:		http://poppler.freedesktop.org
@@ -68,6 +78,34 @@ BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	qtchooser
 BuildRequires:	qmake5
+%endif
+%if %{with compat32}
+BuildRequires:	devel(libintl)
+BuildRequires:	devel(libfontconfig)
+BuildRequires:	devel(libfreetype)
+BuildRequires:	devel(libjpeg)
+BuildRequires:	devel(libcurl)
+BuildRequires:	devel(libtiff)
+BuildRequires:	devel(libcairo)
+BuildRequires:	devel(libopenjp2)
+BuildRequires:	devel(liblcms2)
+BuildRequires:	devel(libz)
+BuildRequires:	devel(libbz2)
+BuildRequires:	devel(libpng16)
+BuildRequires:	devel(libuuid)
+BuildRequires:	devel(libexpat)
+BuildRequires:	devel(libgobject-2.0)
+BuildRequires:	devel(libglib-2.0)
+BuildRequires:	devel(libpixman-1)
+BuildRequires:	devel(libxcb)
+BuildRequires:	devel(libX11)
+BuildRequires:	devel(libXau)
+BuildRequires:	devel(libXdmcp)
+BuildRequires:	devel(libXext)
+BuildRequires:	devel(libblkid)
+BuildRequires:	devel(libmount)
+BuildRequires:	devel(libffi)
+BuildRequires:	devel(libXrender)
 %endif
 
 %description
@@ -174,6 +212,42 @@ Requires:	%{devname} = %{version}-%{release}
 %description -n %{cppdev}
 Development files for %{name}-cpp
 
+%if %{with compat32}
+%package -n %{lib32name}
+Summary:	PDF rendering library (32-bit)
+Group:		System/Libraries
+Suggests:	poppler-data >= 0.4.7
+
+%description -n %{lib32name}
+Poppler is a PDF rendering library based on the xpdf-3.0 code base.
+
+%package -n %{dev32name}
+Summary:	Development files for %{name} (32-bit)
+Group:		Development/C++
+Requires:	%{devname} = %{version}-%{release}
+Requires:	%{lib32name} = %{version}-%{release}
+
+%description -n %{dev32name}
+Development files for %{name}
+
+%package -n %{lib32glib}
+Summary:	PDF rendering library - glib binding (32-bit)
+Group:		System/Libraries
+
+%description -n %{lib32glib}
+Poppler is a PDF rendering library based on the xpdf-3.0 code base.
+
+%package -n %{glib32dev}
+Summary:	Development files for %{name}'s glib binding (32-bit)
+Group:		Development/C++
+Requires:	%{glibdev} = %{version}-%{release}
+Requires:	%{lib32glib} = %{version}-%{release}
+Requires:	%{dev32name} = %{version}-%{release}
+
+%description -n %{glib32dev}
+Development files for %{name}'s glib binding.
+%endif
+
 %prep
 %autosetup -p1
 find . -type f |xargs chmod 0644
@@ -188,6 +262,24 @@ sed -i -e 's,env python3,env python,g' make-glib-api-docs
 %endif
 
 sed -i -e '/CXX_STANDARD/iadd_definitions(-fno-lto)' CMakeLists.txt
+
+%if %{with compat32}
+# We need only a small subset -- whatever is
+# used by/useful to wine, nothing else
+%cmake32 \
+	-DWITH_Cairo:BOOL=ON \
+	-DENABLE_GTK_DOC:BOOL=OFF \
+	-DENABLE_GLIB:BOOL=ON \
+	-DENABLE_SPLASH:BOOL=OFF \
+	-DENABLE_CMS=lcms2 \
+	-DENABLE_DCTDECODER=libjpeg \
+	-DENABLE_LIBOPENJPEG=openjpeg2 \
+	-DENABLE_UTILS:BOOL=OFF \
+	-DENABLE_CPP:BOOL=OFF \
+	-G Ninja
+%ninja_build
+cd ..
+%endif
 
 %cmake \
 	-DENABLE_XPDF_HEADERS:BOOL=ON \
@@ -206,6 +298,7 @@ sed -i -e '/CXX_STANDARD/iadd_definitions(-fno-lto)' CMakeLists.txt
 	-DENABLE_CMS=lcms2 \
 	-DENABLE_DCTDECODER=libjpeg \
 	-DENABLE_LIBOPENJPEG=openjpeg2 \
+	-DENABLE_ZLIB_UNCOMPRESS:BOOL=ON \
 	-G Ninja
 
 export LD_LIBRARY_PATH=$(pwd)
@@ -213,6 +306,10 @@ export LD_LIBRARY_PATH=$(pwd)
 
 %install
 find build/glib/reference -type f |xargs chmod 0644
+
+%if %{with compat32}
+%ninja_install -C build32
+%endif
 
 %ninja_install -C build
 cp -a build/config.h %{buildroot}%{_includedir}/poppler/
@@ -285,3 +382,20 @@ cp build/glib/demo/poppler-glib-demo %{buildroot}%{_bindir}/
 %{_libdir}/libpoppler-cpp.so
 %{_libdir}/pkgconfig/poppler-cpp.pc
 %{_includedir}/poppler/cpp
+
+%if %{with compat32}
+%files -n %{lib32name}
+%{_prefix}/lib/libpoppler.so.%{major}*
+
+%files -n %{dev32name}
+%{_prefix}/lib/libpoppler.so
+%{_prefix}/lib/pkgconfig/poppler.pc
+
+%files -n %{lib32glib}
+%{_prefix}/lib/libpoppler-glib.so.%{glibmaj}*
+
+%files -n %{glib32dev}
+%{_prefix}/lib/libpoppler-glib.so
+%{_prefix}/lib/pkgconfig/poppler-cairo.pc
+%{_prefix}/lib/pkgconfig/poppler-glib.pc
+%endif

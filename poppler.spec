@@ -10,7 +10,7 @@
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major 100
+%define major 101
 %define glibmaj 8
 %define qt3maj 3
 %define qt5maj 1
@@ -39,14 +39,19 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	0.89.0
-Release:	2
+Version:	0.90.1
+Release:	1
 License:	GPLv2+
 Group:		Office
 Url:		http://poppler.freedesktop.org
 Source0:	http://poppler.freedesktop.org/%{name}-%{version}.tar.xz
 # Fix #include <poppler-config.h> from C code (e.g. texlive)
 Patch0:		poppler-0.84.0-non-c++.patch
+# When assuming cmake >= 3.2.0, we somehow get a -m64
+# into compiler flags.
+# FIXME debug the actual issue instead of applying the
+# workaround...
+Patch1:		workaround-cmake32-failure.patch
 %if %{with doc}
 BuildRequires:	gtk-doc
 BuildRequires:	python
@@ -264,13 +269,17 @@ sed -i -e 's,env python3,env python,g' make-glib-api-docs
 sed -i -e '/CXX_STANDARD/iadd_definitions(-fno-lto)' CMakeLists.txt
 
 %if %{with compat32}
+export CFLAGS32="-m32"
+export CXXFLAGS32="-m32"
+export CPPFLAGS32="-m32"
 # We need only a small subset -- whatever is
 # used by/useful to wine, nothing else
 %cmake32 \
 	-DWITH_Cairo:BOOL=ON \
+	-DENABLE_LIBCURL:BOOL=ON \
 	-DENABLE_GTK_DOC:BOOL=OFF \
 	-DENABLE_GLIB:BOOL=ON \
-	-DENABLE_SPLASH:BOOL=OFF \
+	-DENABLE_SPLASH:BOOL=ON \
 	-DENABLE_CMS=lcms2 \
 	-DENABLE_DCTDECODER=libjpeg \
 	-DENABLE_LIBOPENJPEG=openjpeg2 \
@@ -294,6 +303,7 @@ cd ..
 %if !%{with gtk}
 	-DENABLE_GLIB:BOOL=OFF \
 %endif
+	-DENABLE_QT6:BOOL=OFF \
 	-DSPLASH_CMYK:BOOL=ON \
 	-DENABLE_CMS=lcms2 \
 	-DENABLE_DCTDECODER=libjpeg \
@@ -398,4 +408,5 @@ cp build/glib/demo/poppler-glib-demo %{buildroot}%{_bindir}/
 %{_prefix}/lib/libpoppler-glib.so
 %{_prefix}/lib/pkgconfig/poppler-cairo.pc
 %{_prefix}/lib/pkgconfig/poppler-glib.pc
+%{_prefix}/lib/pkgconfig/poppler-splash.pc
 %endif

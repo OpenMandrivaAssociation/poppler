@@ -5,20 +5,23 @@
 
 %global optflags %{optflags} -O3
 
+%bcond_without	qt6
 %bcond_without	qt5
 %bcond_without	cairo
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major 104
+%define major 105
 %define glibmaj 8
 %define qt3maj 3
 %define qt5maj 1
+%define qt6maj 1
 %define cppmaj 0
 %define girmaj 0.18
 %define libname	%mklibname %{name} %{major}
 %define libglib	%mklibname %{name}-glib %{glibmaj}
 %define libqt5	%mklibname %{name}-qt5_ %{qt5maj}
+%define libqt6	%mklibname %{name}-qt6_ %{qt6maj}
 %define libqt	%mklibname %{name}-qt %{qt3maj}
 %define libcpp	%mklibname %{name}-cpp %{cppmaj}
 %define girname	%mklibname %{name}-gir %{girmaj}
@@ -26,6 +29,7 @@
 %define glibdev	%mklibname -d %{name}-glib
 %define qtdev	%mklibname -d %{name}-qt
 %define qt5dev	%mklibname -d %{name}-qt5
+%define qt6dev	%mklibname -d %{name}-qt6
 %define cppdev	%mklibname -d %{name}-cpp
 
 %define lib32name	%mklib32name %{name} %{major}
@@ -39,7 +43,7 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	20.11.0
+Version:	20.12.0
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -83,6 +87,14 @@ BuildRequires:	pkgconfig(Qt5Widgets)
 BuildRequires:	pkgconfig(Qt5Test)
 BuildRequires:	qtchooser
 BuildRequires:	qmake5
+%endif
+%if %{with qt6}
+BuildRequires:	%{_lib}Qt6Core-devel
+BuildRequires:	%{_lib}Qt6Gui-devel
+BuildRequires:	%{_lib}Qt6Test-devel
+BuildRequires:	%{_lib}Qt6Widgets-devel
+BuildRequires:	%{_lib}Qt6Xml-devel
+BuildRequires:	qmake-qt6
 %endif
 %if %{with compat32}
 BuildRequires:	devel(libintl)
@@ -167,12 +179,33 @@ Obsoletes:	%{_lib}poppler-qt5-1 < 0.24.3
 Development files for %{name}-qt5
 
 %package -n %{libqt5}
-Summary:	PDF rendering library - QT4 backend
+Summary:	PDF rendering library - Qt 5.x backend
 Group:		System/Libraries
 
 %description -n %{libqt5}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
 This is the Qt 5.x backend version.
+%endif
+
+%if %{with qt6}
+%package  -n %{qt6dev}
+Summary:	Development files for %{name}-qt6
+Group:		Development/C++
+Provides:	%{name}-qt6-devel = %{version}
+Requires:	%{libqt6} = %{version}-%{release}
+Requires:	%{devname} = %{version}-%{release}
+Obsoletes:	%{_lib}poppler-qt6-1 < 0.24.3
+
+%description -n %{qt6dev}
+Development files for %{name}-qt6
+
+%package -n %{libqt6}
+Summary:	PDF rendering library - Qt 6.x backend
+Group:		System/Libraries
+
+%description -n %{libqt6}
+Poppler is a PDF rendering library based on the xpdf-3.0 code base.
+This is the Qt 6.x backend version.
 %endif
 
 %if %{with gtk}
@@ -303,7 +336,9 @@ cd ..
 %if !%{with gtk}
 	-DENABLE_GLIB:BOOL=OFF \
 %endif
-	-DENABLE_QT6:BOOL=OFF \
+%if %{with qt6}
+	-DENABLE_QT6:BOOL=ON \
+%endif
 	-DSPLASH_CMYK:BOOL=ON \
 	-DENABLE_CMS=lcms2 \
 	-DENABLE_DCTDECODER=libjpeg \
@@ -326,6 +361,13 @@ cp -a build/config.h %{buildroot}%{_includedir}/poppler/
 %if %{with gtk}
 cp build/glib/demo/poppler-glib-demo %{buildroot}%{_bindir}/
 %endif
+
+if [ -e %{buildroot}%{_libdir}/pkgconfig/poppler-qt6.pc ]; then
+	echo "poppler-qt6.pc has been added upstream, please remove the workaround"
+	exit 1
+else
+	sed -e 's,5,6,g' %{buildroot}%{_libdir}/pkgconfig/poppler-qt5.pc >%{buildroot}%{_libdir}/pkgconfig/poppler-qt6.pc
+fi
 
 %files
 %doc AUTHORS COPYING NEWS
@@ -352,10 +394,6 @@ cp build/glib/demo/poppler-glib-demo %{buildroot}%{_bindir}/
 %{_includedir}/poppler/goo
 %{_includedir}/poppler/splash
 %{_includedir}/poppler/poppler-config.h
-%if %{with cairo}
-%{_libdir}/pkgconfig/poppler-cairo.pc
-%endif
-%{_libdir}/pkgconfig/poppler-splash.pc
 %{_libdir}/pkgconfig/poppler.pc
 
 %if %{with gtk}
@@ -385,6 +423,16 @@ cp build/glib/demo/poppler-glib-demo %{buildroot}%{_bindir}/
 %{_libdir}/libpoppler-qt5.so.%{qt5maj}*
 %endif
 
+%if %{with qt6}
+%files -n %{qt6dev}
+%{_includedir}/poppler/qt6
+%{_libdir}/pkgconfig/poppler-qt6.pc
+%{_libdir}/libpoppler-qt6.so
+
+%files -n %{libqt6}
+%{_libdir}/libpoppler-qt6.so.%{qt6maj}*
+%endif
+
 %files -n %{libcpp}
 %{_libdir}/libpoppler-cpp.so.%{cppmaj}*
 
@@ -406,7 +454,5 @@ cp build/glib/demo/poppler-glib-demo %{buildroot}%{_bindir}/
 
 %files -n %{glib32dev}
 %{_prefix}/lib/libpoppler-glib.so
-%{_prefix}/lib/pkgconfig/poppler-cairo.pc
 %{_prefix}/lib/pkgconfig/poppler-glib.pc
-%{_prefix}/lib/pkgconfig/poppler-splash.pc
 %endif

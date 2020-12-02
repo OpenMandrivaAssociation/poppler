@@ -68,6 +68,7 @@ BuildRequires:	ninja
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(nss)
 BuildRequires:	pkgconfig(libtiff-4)
+BuildRequires:	pkgconfig(poppler-data)
 %if %{with cairo}
 BuildRequires:	pkgconfig(cairo) >= 1.8.4
 %endif
@@ -95,6 +96,7 @@ BuildRequires:	%{_lib}Qt6Test-devel
 BuildRequires:	%{_lib}Qt6Widgets-devel
 BuildRequires:	%{_lib}Qt6Xml-devel
 BuildRequires:	qmake-qt6
+BuildRequires:	qt6-cmake
 %endif
 %if %{with compat32}
 BuildRequires:	devel(libintl)
@@ -345,6 +347,12 @@ cd ..
 	-DENABLE_LIBOPENJPEG=openjpeg2 \
 	-DENABLE_ZLIB_UNCOMPRESS:BOOL=ON \
 	-G Ninja
+echo "=== CMakeOutput.log: ==="
+cat CMakeFiles/CMakeOutput.log
+echo "=== CMakeOutput.log ==="
+echo "=== CMakeError.log: ==="
+cat CMakeFiles/CMakeError.log
+echo "=== CMakeError.log ==="
 
 export LD_LIBRARY_PATH=$(pwd)
 %ninja

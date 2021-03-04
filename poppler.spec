@@ -11,7 +11,7 @@
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major 107
+%define major 108
 %define glibmaj 8
 %define qt3maj 3
 %define qt5maj 1
@@ -43,7 +43,7 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	21.02.0
+Version:	21.03.0
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -369,13 +369,6 @@ cp -a build/config.h %{buildroot}%{_includedir}/poppler/
 %if %{with gtk}
 cp build/glib/demo/poppler-glib-demo %{buildroot}%{_bindir}/
 %endif
-
-if [ -e %{buildroot}%{_libdir}/pkgconfig/poppler-qt6.pc ]; then
-	echo "poppler-qt6.pc has been added upstream, please remove the workaround"
-	exit 1
-else
-	sed -e 's,5,6,g' %{buildroot}%{_libdir}/pkgconfig/poppler-qt5.pc >%{buildroot}%{_libdir}/pkgconfig/poppler-qt6.pc
-fi
 
 %files
 %doc AUTHORS COPYING NEWS

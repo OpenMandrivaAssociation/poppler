@@ -11,7 +11,7 @@
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major 108
+%define major 109
 %define glibmaj 8
 %define qt3maj 3
 %define qt5maj 1
@@ -43,7 +43,7 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	21.03.0
+Version:	21.04.0
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -395,6 +395,7 @@ cp build/glib/demo/poppler-glib-demo %{buildroot}%{_bindir}/
 %{_includedir}/poppler/goo
 %{_includedir}/poppler/splash
 %{_includedir}/poppler/poppler-config.h
+%{_includedir}/poppler/poppler_private_export.h
 %{_libdir}/pkgconfig/poppler.pc
 
 %if %{with gtk}

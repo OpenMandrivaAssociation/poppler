@@ -65,6 +65,7 @@ BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	jpeg-devel
 BuildRequires:	cmake
 BuildRequires:	ninja
+BuildRequires:	boost-devel
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(nss)
 BuildRequires:	pkgconfig(libtiff-4)

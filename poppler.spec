@@ -11,7 +11,7 @@
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major 112
+%define major 113
 %define glibmaj 8
 %define qt3maj 3
 %define qt5maj 1
@@ -43,7 +43,7 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	21.08.0
+Version:	21.09.0
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -51,11 +51,6 @@ Url:		http://poppler.freedesktop.org
 Source0:	http://poppler.freedesktop.org/%{name}-%{version}.tar.xz
 # Fix #include <poppler-config.h> from C code (e.g. texlive)
 Patch0:		poppler-0.84.0-non-c++.patch
-# When assuming cmake >= 3.2.0, we somehow get a -m64
-# into compiler flags.
-# FIXME debug the actual issue instead of applying the
-# workaround...
-Patch1:		workaround-cmake32-failure.patch
 %if %{with doc}
 BuildRequires:	gtk-doc
 BuildRequires:	python

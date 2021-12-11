@@ -87,6 +87,7 @@ BuildRequires:	qmake5
 %endif
 %if %{with qt6}
 BuildRequires:	%{_lib}Qt6Core-devel
+BuildRequires:	%{_lib}Qt6DBus-devel
 BuildRequires:	%{_lib}Qt6Gui-devel
 BuildRequires:	%{_lib}Qt6Test-devel
 BuildRequires:	%{_lib}Qt6Widgets-devel

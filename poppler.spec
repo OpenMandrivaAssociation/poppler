@@ -11,20 +11,20 @@
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major 120
+%define major 121
 %define glibmaj 8
 %define qt3maj 3
 %define qt5maj 1
 %define qt6maj 3
 %define cppmaj 0
 %define girmaj 0.18
-%define libname	%mklibname %{name} %{major}
-%define libglib	%mklibname %{name}-glib %{glibmaj}
-%define libqt5	%mklibname %{name}-qt5_ %{qt5maj}
-%define libqt6	%mklibname %{name}-qt6_ %{qt6maj}
-%define libqt	%mklibname %{name}-qt %{qt3maj}
-%define libcpp	%mklibname %{name}-cpp %{cppmaj}
-%define girname	%mklibname %{name}-gir %{girmaj}
+%define libname	%mklibname %{name}
+%define libglib	%mklibname %{name}-glib
+%define libqt5	%mklibname %{name}-qt5
+%define libqt6	%mklibname %{name}-qt6
+%define libqt	%mklibname %{name}-qt
+%define libcpp	%mklibname %{name}-cpp
+%define girname	%mklibname %{name}-gir
 %define devname	%mklibname -d %{name}
 %define glibdev	%mklibname -d %{name}-glib
 %define qtdev	%mklibname -d %{name}-qt
@@ -43,7 +43,7 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	22.04.0
+Version:	22.05.0
 Release:	1
 License:	GPLv2+
 Group:		Office

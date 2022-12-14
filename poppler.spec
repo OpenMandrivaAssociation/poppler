@@ -11,7 +11,7 @@
 %bcond_without	gtk
 %bcond_without	doc
 
-%define major 125
+%define major 126
 %define glibmaj 8
 %define qt3maj 3
 %define qt5maj 1
@@ -43,7 +43,7 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	22.11.0
+Version:	22.12.0
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -96,7 +96,6 @@ BuildRequires:	qmake-qt6
 BuildRequires:	qt6-cmake
 %endif
 %if %{with compat32}
-BuildRequires:	devel(libintl)
 BuildRequires:	devel(libfontconfig)
 BuildRequires:	devel(libfreetype)
 BuildRequires:	devel(libjpeg)

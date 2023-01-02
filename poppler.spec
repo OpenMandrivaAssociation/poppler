@@ -43,7 +43,7 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	22.12.0
+Version:	23.01.0
 Release:	1
 License:	GPLv2+
 Group:		Office

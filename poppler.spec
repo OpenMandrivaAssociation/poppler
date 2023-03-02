@@ -32,8 +32,8 @@
 %define qt6dev	%mklibname -d %{name}-qt6
 %define cppdev	%mklibname -d %{name}-cpp
 
-%define lib32name	%mklib32name %{name} %{major}
-%define lib32glib	%mklib32name %{name}-glib %{glibmaj}
+%define lib32name	%mklib32name %{name}
+%define lib32glib	%mklib32name %{name}-glib
 %define dev32name	%mklib32name -d %{name}
 %define glib32dev	%mklib32name -d %{name}-glib
 
@@ -43,7 +43,7 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	23.02.0
+Version:	23.03.0
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -253,6 +253,7 @@ Development files for %{name}-cpp
 Summary:	PDF rendering library (32-bit)
 Group:		System/Libraries
 Suggests:	poppler-data >= 0.4.7
+Obsoletes:	%{lib32name}126 < %{EVRD}
 
 %description -n %{lib32name}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.
@@ -269,6 +270,7 @@ Development files for %{name}
 %package -n %{lib32glib}
 Summary:	PDF rendering library - glib binding (32-bit)
 Group:		System/Libraries
+Obsoletes:	%{lib32name}8 < %{EVRD}
 
 %description -n %{lib32glib}
 Poppler is a PDF rendering library based on the xpdf-3.0 code base.

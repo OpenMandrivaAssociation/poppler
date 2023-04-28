@@ -345,12 +345,18 @@ cd ..
 	-DENABLE_LIBOPENJPEG=openjpeg2 \
 	-DENABLE_ZLIB_UNCOMPRESS:BOOL=ON \
 	-G Ninja
-echo "=== CMakeOutput.log: ==="
-cat CMakeFiles/CMakeOutput.log
-echo "=== CMakeOutput.log ==="
-echo "=== CMakeError.log: ==="
-cat CMakeFiles/CMakeError.log
-echo "=== CMakeError.log ==="
+
+if [ -e CMakeFiles/CMakeOutput.log ]; then
+	echo "=== CMakeOutput.log: ==="
+	cat CMakeFiles/CMakeOutput.log
+	echo "=== CMakeOutput.log ==="
+fi
+
+if [ -e CMakeFiles/CMakeError.log ]; then
+	echo "=== CMakeError.log: ==="
+	cat CMakeFiles/CMakeError.log
+	echo "=== CMakeError.log ==="
+fi
 
 export LD_LIBRARY_PATH=$(pwd)
 %ninja

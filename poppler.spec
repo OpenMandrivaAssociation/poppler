@@ -9,9 +9,12 @@
 %bcond_without	qt5
 %bcond_without	cairo
 %bcond_without	gtk
-%bcond_without	doc
+# gtk-doc is highly unstable and a huge pain.
+# (and besides, it's docs for glib bindings only)
+# Let's just rely on online docs.
+%bcond_with	doc
 
-%define major 130
+%define major 131
 %define glibmaj 8
 %define qt3maj 3
 %define qt5maj 1
@@ -43,7 +46,7 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	23.08.0
+Version:	23.09.0
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -362,7 +365,9 @@ export LD_LIBRARY_PATH=$(pwd)
 %ninja
 
 %install
+%if %{with doc}
 find build/glib/reference -type f |xargs chmod 0644
+%endif
 
 %if %{with compat32}
 %ninja_install -C build32

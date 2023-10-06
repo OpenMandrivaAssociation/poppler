@@ -68,6 +68,7 @@ BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(nss) >= 3.49
 BuildRequires:	pkgconfig(libtiff-4)
 BuildRequires:	pkgconfig(poppler-data)
+BuildRequires:	pkgconfig(gpgme)
 %if %{with cairo}
 BuildRequires:	pkgconfig(cairo) >= 1.8.4
 %endif

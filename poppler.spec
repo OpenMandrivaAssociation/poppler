@@ -14,7 +14,7 @@
 # Let's just rely on online docs.
 %bcond_with	doc
 
-%define major 131
+%define major 132
 %define glibmaj 8
 %define qt3maj 3
 %define qt5maj 1
@@ -46,7 +46,7 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	23.09.0
+Version:	23.10.0
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -65,7 +65,7 @@ BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	boost-devel
 BuildRequires:	pkgconfig(libcurl)
-BuildRequires:	pkgconfig(nss)
+BuildRequires:	pkgconfig(nss) >= 3.49
 BuildRequires:	pkgconfig(libtiff-4)
 BuildRequires:	pkgconfig(poppler-data)
 %if %{with cairo}
@@ -321,6 +321,10 @@ export CPPFLAGS32="-m32"
 	-DENABLE_LIBOPENJPEG=openjpeg2 \
 	-DENABLE_UTILS:BOOL=OFF \
 	-DENABLE_CPP:BOOL=OFF \
+	-DENABLE_NSS3:BOOL=OFF \
+	-DENABLE_GPGME:BOOL=OFF \
+	-DENABLE_QT5:BOOL=OFF \
+	-DENABLE_QT6:BOOL=OFF \
 	-G Ninja
 %ninja_build
 cd ..

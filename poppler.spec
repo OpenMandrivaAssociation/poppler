@@ -50,7 +50,7 @@ Version:	24.10.0
 Release:	1
 License:	GPLv2+
 Group:		Office
-Url:		http://poppler.freedesktop.org
+Url:		https://poppler.freedesktop.org
 Source0:	http://poppler.freedesktop.org/%{name}-%{version}.tar.xz
 # Fix #include <poppler-config.h> from C code (e.g. texlive)
 Patch0:		poppler-0.84.0-non-c++.patch

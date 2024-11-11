@@ -47,13 +47,16 @@ Name:		poppler
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
 Version:	24.11.0
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Office
 Url:		https://poppler.freedesktop.org
 Source0:	http://poppler.freedesktop.org/%{name}-%{version}.tar.xz
 # Fix #include <poppler-config.h> from C code (e.g. texlive)
 Patch0:		poppler-0.84.0-non-c++.patch
+# Restore deprecated headers that are still relied upon by important
+# stuff like Scribus
+Patch1:		https://gitlab.archlinux.org/archlinux/packaging/packages/poppler/-/raw/main/add_removed_headers_back.patch
 %if %{with doc}
 BuildRequires:	gtk-doc
 BuildRequires:	python

@@ -1,12 +1,12 @@
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index bb1c73a..7ad1a05 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -675,11 +675,13 @@ if(ENABLE_UNSTABLE_API_ABI_HEADERS)
+diff -up poppler-25.01.0/CMakeLists.txt.2~ poppler-25.01.0/CMakeLists.txt
+--- poppler-25.01.0/CMakeLists.txt.2~	2025-01-05 14:35:55.981327382 +0100
++++ poppler-25.01.0/CMakeLists.txt	2025-01-05 14:41:48.658983247 +0100
+@@ -668,12 +668,14 @@ if(ENABLE_UNSTABLE_API_ABI_HEADERS)
      poppler/Array.h
      poppler/CachedFile.h
      poppler/Catalog.h
 +    poppler/CharCodeToUnicode.h
+     poppler/CryptoSignBackend.h
      poppler/DateInfo.h
      poppler/Dict.h
      poppler/Error.h
@@ -16,19 +16,3 @@ index bb1c73a..7ad1a05 100644
      poppler/FontInfo.h
      poppler/Form.h
      poppler/Function.h
-@@ -720,6 +722,7 @@ if(ENABLE_UNSTABLE_API_ABI_HEADERS)
-     poppler/UnicodeCClassTables.h
-     poppler/UnicodeCompTables.h
-     poppler/UnicodeDecompTables.h
-+    poppler/ViewerPreferences.h
-     poppler/XRef.h
-     poppler/CharTypes.h
-     poppler/ErrorCodes.h
-@@ -755,6 +758,7 @@ if(ENABLE_UNSTABLE_API_ABI_HEADERS)
-     splash/SplashBitmap.h
-     splash/SplashClip.h
-     splash/SplashErrorCodes.h
-+    splash/SplashFont.h
-     splash/SplashFontEngine.h
-     splash/SplashFontFile.h
-     splash/SplashFontFileID.h

@@ -14,7 +14,7 @@
 # Let's just rely on online docs.
 %bcond_with	doc
 
-%define major 145
+%define major 148
 %define glibmaj 8
 %define qt3maj 3
 %define qt5maj 1
@@ -46,7 +46,7 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	25.01.0
+Version:	25.04.0
 Release:	1
 License:	GPLv2+
 Group:		Office
@@ -57,6 +57,7 @@ Patch0:		poppler-0.84.0-non-c++.patch
 # Restore deprecated headers that are still relied upon by important
 # stuff like Scribus
 Patch1:		https://gitlab.archlinux.org/archlinux/packaging/packages/poppler/-/raw/main/add_removed_headers_back.patch
+Patch2:		https://gitlab.freedesktop.org/poppler/poppler/-/commit/fef9e7134334d2f666c3be15f2783f3a70fd305b.patch
 %if %{with doc}
 BuildRequires:	gtk-doc
 BuildRequires:	python

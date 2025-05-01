@@ -1,0 +1,65 @@
+From fef9e7134334d2f666c3be15f2783f3a70fd305b Mon Sep 17 00:00:00 2001
+From: Albert Astals Cid <aacid@kde.org>
+Date: Wed, 9 Apr 2025 22:56:23 +0200
+Subject: [PATCH] Fix signature of FlateStream::getPSFilter
+
+---
+ poppler/FlateStream.cc | 17 +++++++++--------
+ poppler/FlateStream.h  |  2 +-
+ 2 files changed, 10 insertions(+), 9 deletions(-)
+
+diff --git a/poppler/FlateStream.cc b/poppler/FlateStream.cc
+index 2e23a31a9..192d170c8 100644
+--- a/poppler/FlateStream.cc
++++ b/poppler/FlateStream.cc
+@@ -3,7 +3,7 @@
+ // FlateStream.cc
+ //
+ // Copyright (C) 2005, Jeff Muizelaar <jeff@infidigm.net>
+-// Copyright (C) 2010, 2021, Albert Astals Cid <aacid@kde.org>
++// Copyright (C) 2010, 2021, 2025, Albert Astals Cid <aacid@kde.org>
+ // Copyright (C) 2016, William Bader <williambader@hotmail.com>
+ // Copyright (C) 2017, Adrian Johnson <ajohnson@redneon.com>
+ // Copyright (C) 2025 Nelson Benítez León <nbenitezl@gmail.com>
+@@ -133,17 +133,18 @@ int FlateStream::fill_buffer()
+     return 0;
+ }
+ 
+-GooString *FlateStream::getPSFilter(int psLevel, const char *indent)
++std::optional<std::string> FlateStream::getPSFilter(int psLevel, const char *indent)
+ {
+-    GooString *s;
+-
+     if (psLevel < 3 || pred) {
+-        return NULL;
++        return std::nullopt;
+     }
+-    if (!(s = str->getPSFilter(psLevel, indent))) {
+-        return NULL;
++
++    std::optional<std::string> s = str->getPSFilter(psLevel, indent);
++    if (!s.has_value()) {
++        return std::nullopt;
+     }
+-    s->append(indent)->append("<< >> /FlateDecode filter\n");
++    s->append(indent).append("<< >> /FlateDecode filter\n");
++
+     return s;
+ }
+ 
+diff --git a/poppler/FlateStream.h b/poppler/FlateStream.h
+index 12dd6ac53..08570a5c0 100644
+--- a/poppler/FlateStream.h
++++ b/poppler/FlateStream.h
+@@ -45,7 +45,7 @@ public:
+     int lookChar() override;
+     int getRawChar() override;
+     void getRawChars(int nChars, int *buffer) override;
+-    GooString *getPSFilter(int psLevel, const char *indent) override;
++    std::optional<std::string> getPSFilter(int psLevel, const char *indent) override;
+     bool isBinary(bool last = true) const override;
+ 
+ private:
+-- 
+GitLab
+

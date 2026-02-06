@@ -47,7 +47,7 @@ Name:		poppler
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
 Version:	26.02.0
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Office
 Url:		https://poppler.freedesktop.org

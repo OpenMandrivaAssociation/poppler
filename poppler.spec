@@ -14,7 +14,7 @@
 # Let's just rely on online docs.
 %bcond_with	doc
 
-%define major 157
+%define major 158
 %define glibmaj 8
 %define qt3maj 3
 %define qt5maj 1
@@ -46,8 +46,8 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	26.02.0
-Release:	2
+Version:	26.03.0
+Release:	1
 License:	GPLv2+
 Group:		Office
 Url:		https://poppler.freedesktop.org

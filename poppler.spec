@@ -65,6 +65,7 @@ BuildRequires:	jpeg-devel
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	boost-devel
+BuildRequires:	clang-tools
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(nss) >= 3.49
 BuildRequires:	pkgconfig(libtiff-4)

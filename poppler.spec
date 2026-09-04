@@ -1,6 +1,9 @@
 # cairo uses poppler, gtk-3.0 uses cairo, wine uses gtk-3.0
+# 32-bit (-m32) is currently broken in the ABF x86 mock chroots:
+# generic x86_64's libc6/libgcc1 are 64-bit, and ld.lld cannot find
+# i386 -lc/-lgcc_s. Re-enable when a real 32-bit libc is installable.
 %ifarch %{x86_64}
-%bcond_without compat32
+%bcond_with compat32
 %endif
 
 %global optflags %{optflags} -O3
@@ -47,7 +50,7 @@ Name:		poppler
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
 Version:	26.09.0
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		Office
 Url:		https://poppler.freedesktop.org

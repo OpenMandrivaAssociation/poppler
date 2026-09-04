@@ -47,7 +47,7 @@ Name:		poppler
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
 Version:	26.09.0
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Office
 Url:		https://poppler.freedesktop.org
@@ -104,8 +104,10 @@ BuildRequires:	qmake-qt6
 BuildRequires:	qt6-cmake
 %endif
 %if %{with compat32}
-# -m32 links need the i386 compiler-rt builtins shipped by the cross clang
+# -m32 links need i386 compiler-rt, libc and libgcc_s
 BuildRequires:	cross-i686-openmandriva-linux-gnu-clang
+BuildRequires:	libc6
+BuildRequires:	libgcc1
 BuildRequires:	devel(libfontconfig)
 BuildRequires:	devel(libharfbuzz)
 BuildRequires:	devel(libharfbuzz-subset)

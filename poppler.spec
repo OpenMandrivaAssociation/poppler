@@ -3,7 +3,7 @@
 # generic x86_64's libc6/libgcc1 are 64-bit, and ld.lld cannot find
 # i386 -lc/-lgcc_s. Re-enable when a real 32-bit libc is installable.
 %ifarch %{x86_64}
-%bcond_with compat32
+%bcond_without compat32
 %endif
 
 %global optflags %{optflags} -O3
@@ -109,8 +109,10 @@ BuildRequires:	qt6-cmake
 %if %{with compat32}
 # -m32 links need i386 compiler-rt, libc and libgcc_s
 BuildRequires:	cross-i686-openmandriva-linux-gnu-clang
-BuildRequires:	libc6
-BuildRequires:	libgcc1
+BuildRequires:	cross-i686-openmandriva-linux-gnu-libc
+BuildRequires:	cross-i686-openmandriva-linux-gnu-gcc
+BuildRequires:	cross-i686-openmandriva-linux-gnu-binutils
+BuildRequires:	cross-i686-openmandriva-linux-gnu-kernel-headers
 BuildRequires:	devel(libfontconfig)
 BuildRequires:	devel(libharfbuzz)
 BuildRequires:	devel(libharfbuzz-subset)

@@ -17,7 +17,7 @@
 # Let's just rely on online docs.
 %bcond_with	doc
 
-%define major 164
+%define major 165
 %define glibmaj 8
 %define qt3maj 3
 %define qt5maj 1
@@ -49,8 +49,8 @@ Name:		poppler
 # when you are about to update it, 
 # make sure other packages that depends on poppler will build with new version
 # especially texlive. Thanks.
-Version:	26.09.0
-Release:	4
+Version:	26.10.0
+Release:	1
 License:	GPLv2+
 Group:		Office
 Url:		https://poppler.freedesktop.org
@@ -66,6 +66,7 @@ BuildRequires:	gettext-devel
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(harfbuzz)
 BuildRequires:	pkgconfig(harfbuzz-subset)
+BuildRequires:	pkgconfig(libbrotlidec)
 BuildRequires:	jpeg-devel
 BuildRequires:	cmake
 BuildRequires:	ninja
@@ -116,6 +117,7 @@ BuildRequires:	cross-i686-openmandriva-linux-gnu-kernel-headers
 BuildRequires:	devel(libfontconfig)
 BuildRequires:	devel(libharfbuzz)
 BuildRequires:	devel(libharfbuzz-subset)
+BuildRequires:	devel(libbrotlidec)
 BuildRequires:	devel(libfreetype)
 BuildRequires:	devel(libjpeg)
 BuildRequires:	devel(libcurl)
